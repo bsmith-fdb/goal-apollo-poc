@@ -1,0 +1,114 @@
+DROP TABLE IF EXISTS IPT_BASIC_COLOR_P;
+
+
+CREATE TABLE IPT_BASIC_COLOR_P
+(
+  ID                  NUMERIC(8)                 NOT NULL,
+  DESCRIPTION         CHARACTER VARYING(30 )         NOT NULL,
+  ABBREVIATION        CHARACTER VARYING(7 )          NOT NULL,
+  SHORT_ABBREVIATION  CHARACTER VARYING(4 )          NOT NULL,
+  DO_NOT_USE_IND      CHARACTER(1 )              NOT NULL
+);
+
+
+--
+--TABLESPACE OFL_DATA
+--PCTUSED    0
+--PCTFREE    10
+--INITRANS   1
+--MAXTRANS   255
+--STORAGE    (
+--            INITIAL          64K
+--            NEXT             1M
+--            MINEXTENTS       1
+--            MAXEXTENTS       UNLIMITED
+--            PCTINCREASE      0
+--            BUFFER_POOL      DEFAULT
+--           )
+--LOGGING 
+--NOCOMPRESS 
+--NOCACHE;
+--
+--
+--CREATE UNIQUE INDEX IPT_BASIC_COLOR_P_NX1 ON IPT_BASIC_COLOR_P
+--(UPPER("DESCRIPTION"))
+--LOGGING
+--TABLESPACE OFL_INDEX
+--PCTFREE    10
+--INITRANS   2
+--MAXTRANS   255
+--STORAGE    (
+--            INITIAL          64K
+--            NEXT             1M
+--            MINEXTENTS       1
+--            MAXEXTENTS       UNLIMITED
+--            PCTINCREASE      0
+--            BUFFER_POOL      DEFAULT
+--           );
+--CREATE UNIQUE INDEX IPT_BASIC_COLOR_P_NX2 ON IPT_BASIC_COLOR_P
+--(UPPER("ABBREVIATION"))
+--LOGGING
+--TABLESPACE OFL_INDEX
+--PCTFREE    10
+--INITRANS   2
+--MAXTRANS   255
+--STORAGE    (
+--            INITIAL          64K
+--            NEXT             1M
+--            MINEXTENTS       1
+--            MAXEXTENTS       UNLIMITED
+--            PCTINCREASE      0
+--            BUFFER_POOL      DEFAULT
+--           );
+--CREATE UNIQUE INDEX IPT_BASIC_COLOR_P_NX3 ON IPT_BASIC_COLOR_P
+--(UPPER("SHORT_ABBREVIATION"))
+--LOGGING
+--TABLESPACE OFL_INDEX
+--PCTFREE    10
+--INITRANS   2
+--MAXTRANS   255
+--STORAGE    (
+--            INITIAL          64K
+--            NEXT             1M
+--            MINEXTENTS       1
+--            MAXEXTENTS       UNLIMITED
+--            PCTINCREASE      0
+--            BUFFER_POOL      DEFAULT
+--           );
+--CREATE UNIQUE INDEX IPT_BASIC_COLOR_P_PK ON IPT_BASIC_COLOR_P
+--(ID)
+--LOGGING
+--TABLESPACE OFL_INDEX
+--PCTFREE    10
+--INITRANS   2
+--MAXTRANS   255
+--STORAGE    (
+--            INITIAL          64K
+--            NEXT             1M
+--            MINEXTENTS       1
+--            MAXEXTENTS       UNLIMITED
+--            PCTINCREASE      0
+--            BUFFER_POOL      DEFAULT
+--           );
+--
+--ALTER TABLE IPT_BASIC_COLOR_P ADD (
+--  CONSTRAINT IPT_BASIC_COLOR_P_CK1
+--  CHECK (DO_NOT_USE_IND IN ('0', '1'))
+--  ENABLE VALIDATE
+--,  CONSTRAINT IPT_BASIC_COLOR_P_PK
+--  PRIMARY KEY
+--  (ID)
+--  USING INDEX IPT_BASIC_COLOR_P_PK
+--  ENABLE VALIDATE);
+--
+--
+--ALTER TABLE IPT_BASIC_COLOR_P ADD (
+--  CONSTRAINT IPT_BASIC_COLOR_P_FK1 
+--  FOREIGN KEY (ID) 
+--  REFERENCES IPT_BASIC_COLOR_A (ID)
+--  ENABLE VALIDATE);
+--
+--GRANT DELETE, INSERT, UPDATE ON IPT_BASIC_COLOR_P TO APOLLO_DEVELOPER;
+--
+--GRANT SELECT ON IPT_BASIC_COLOR_P TO APOLLO_SELECT;
+--

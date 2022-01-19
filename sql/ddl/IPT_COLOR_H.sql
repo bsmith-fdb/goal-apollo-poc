@@ -1,0 +1,85 @@
+DROP TABLE IF EXISTS IPT_COLOR_H;
+
+CREATE TABLE IPT_COLOR_H
+(
+  ID                  NUMERIC(8)                 NOT NULL,
+  REV_NBR             NUMERIC(4)                 NOT NULL,
+  CHANGE_USER_ID      NUMERIC(8)                 NOT NULL,
+  CHANGE_TIMESTAMP    TIMESTAMP                      NOT NULL,
+  CHANGE_TYPE         CHARACTER(1 )              NOT NULL,
+  DCR_NBR             NUMERIC(5),
+  LEGACY_CHANGE_USER  CHARACTER VARYING(9 )
+);
+
+--
+--TABLESPACE CHG_DATA
+--PCTUSED    0
+--PCTFREE    10
+--INITRANS   1
+--MAXTRANS   255
+--STORAGE    (
+--            INITIAL          64K
+--            NEXT             1M
+--            MINEXTENTS       1
+--            MAXEXTENTS       UNLIMITED
+--            PCTINCREASE      0
+--            BUFFER_POOL      DEFAULT
+--           )
+--LOGGING 
+--NOCOMPRESS 
+--NOCACHE;
+--
+--
+--CREATE UNIQUE INDEX IPT_COLOR_H_PK ON IPT_COLOR_H
+--(ID, REV_NBR)
+--LOGGING
+--TABLESPACE CHG_INDEX
+--PCTFREE    10
+--INITRANS   2
+--MAXTRANS   255
+--STORAGE    (
+--            INITIAL          64K
+--            NEXT             1M
+--            MINEXTENTS       1
+--            MAXEXTENTS       UNLIMITED
+--            PCTINCREASE      0
+--            BUFFER_POOL      DEFAULT
+--           );
+--
+--ALTER TABLE IPT_COLOR_H ADD (
+--  CONSTRAINT IPT_COLOR_H_CK1
+--  CHECK (CHANGE_TYPE IN ('A', 'D', 'C', 'P', 'R'))
+--  ENABLE VALIDATE
+--,  CONSTRAINT IPT_COLOR_H_PK
+--  PRIMARY KEY
+--  (ID, REV_NBR)
+--  USING INDEX IPT_COLOR_H_PK
+--  ENABLE VALIDATE);
+--
+--
+--CREATE INDEX IPT_COLOR_H_NX1 ON IPT_COLOR_H
+--(CHANGE_USER_ID)
+--LOGGING
+--TABLESPACE CHG_INDEX
+--PCTFREE    10
+--INITRANS   2
+--MAXTRANS   255
+--STORAGE    (
+--            INITIAL          64K
+--            NEXT             1M
+--            MINEXTENTS       1
+--            MAXEXTENTS       UNLIMITED
+--            PCTINCREASE      0
+--            BUFFER_POOL      DEFAULT
+--           );
+--
+--ALTER TABLE IPT_COLOR_H ADD (
+--  CONSTRAINT IPT_COLOR_H_FK1 
+--  FOREIGN KEY (CHANGE_USER_ID) 
+--  REFERENCES CUE_USER_S (USER_ID)
+--  ENABLE VALIDATE);
+--
+--GRANT DELETE, INSERT, UPDATE ON IPT_COLOR_H TO APOLLO_DEVELOPER;
+--
+--GRANT SELECT ON IPT_COLOR_H TO APOLLO_SELECT;
+--
