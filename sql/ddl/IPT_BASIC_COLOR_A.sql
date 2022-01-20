@@ -1,168 +1,23 @@
 DROP TABLE IF EXISTS IPT_BASIC_COLOR_A;
 
-CREATE TABLE IPT_BASIC_COLOR_A
-(
-  ID                       NUMERIC(8)            NOT NULL,
-  WIP_STATUS_ID            NUMERIC(8)            NOT NULL,
-  AUD_CREATE_DATE          TIMESTAMP                 NOT NULL,
-  AUD_CREATE_USER_ID       NUMERIC(8)            NOT NULL,
-  AUD_CHECKOUT_DATE        TIMESTAMP,
-  AUD_CHECKOUT_USER_ID     NUMERIC(8),
-  AUD_LAST_MODIFY_DATE     TIMESTAMP                 NOT NULL,
-  AUD_LAST_MODIFY_USER_ID  NUMERIC(8)            NOT NULL,
-  AUD_PUBLISH_DATE         TIMESTAMP,
-  AUD_PUBLISH_USER_ID      NUMERIC(8),
-  FIRST_DELIVERED_DATE     TIMESTAMP,
-  LAST_DELIVERED_DATE      TIMESTAMP,
-  PREV_DELIVERED_DATE      TIMESTAMP
+CREATE TABLE public.ipt_basic_color_a (
+	id numeric(8) NOT NULL,
+	wip_status_id numeric(8) NOT NULL,
+	aud_create_date timestamp NOT NULL,
+	aud_create_user_id numeric(8) NOT NULL,
+	aud_checkout_date timestamp NULL,
+	aud_checkout_user_id numeric(8) NULL,
+	aud_last_modify_date timestamp NOT NULL,
+	aud_last_modify_user_id numeric(8) NOT NULL,
+	aud_publish_date timestamp NULL,
+	aud_publish_user_id numeric(8) NULL,
+	first_delivered_date timestamp NULL,
+	last_delivered_date timestamp NULL,
+	prev_delivered_date timestamp NULL,
+	CONSTRAINT ipt_basic_color_a_pk PRIMARY KEY (id)
 );
 
+-- Permissions
 
---TABLESPACE WIP_DATA
---PCTUSED    0
---PCTFREE    10
---INITRANS   1
---MAXTRANS   255
---STORAGE    (
---            INITIAL          64K
---            NEXT             1M
---            MINEXTENTS       1
---            MAXEXTENTS       UNLIMITED
---            PCTINCREASE      0
---            BUFFER_POOL      DEFAULT
---           )
---LOGGING 
---NOCOMPRESS 
---NOCACHE;
---
---
---CREATE UNIQUE INDEX IPT_BASIC_COLOR_A_PK ON IPT_BASIC_COLOR_A
---(ID)
---LOGGING
---TABLESPACE WIP_INDEX
---PCTFREE    10
---INITRANS   2
---MAXTRANS   255
---STORAGE    (
---            INITIAL          64K
---            NEXT             1M
---            MINEXTENTS       1
---            MAXEXTENTS       UNLIMITED
---            PCTINCREASE      0
---            BUFFER_POOL      DEFAULT
---           );
---
---ALTER TABLE IPT_BASIC_COLOR_A ADD (
---  CONSTRAINT IPT_BASIC_COLOR_A_PK
---  PRIMARY KEY
---  (ID)
---  USING INDEX IPT_BASIC_COLOR_A_PK
---  ENABLE VALIDATE);
---
---
---CREATE INDEX IPT_BASIC_COLOR_A_NX1 ON IPT_BASIC_COLOR_A
---(AUD_CREATE_USER_ID)
---LOGGING
---TABLESPACE WIP_INDEX
---PCTFREE    10
---INITRANS   2
---MAXTRANS   255
---STORAGE    (
---            INITIAL          64K
---            NEXT             1M
---            MINEXTENTS       1
---            MAXEXTENTS       UNLIMITED
---            PCTINCREASE      0
---            BUFFER_POOL      DEFAULT
---           );
---
---CREATE INDEX IPT_BASIC_COLOR_A_NX2 ON IPT_BASIC_COLOR_A
---(AUD_CHECKOUT_USER_ID)
---LOGGING
---TABLESPACE WIP_INDEX
---PCTFREE    10
---INITRANS   2
---MAXTRANS   255
---STORAGE    (
---            INITIAL          64K
---            NEXT             1M
---            MINEXTENTS       1
---            MAXEXTENTS       UNLIMITED
---            PCTINCREASE      0
---            BUFFER_POOL      DEFAULT
---           );
---
---CREATE INDEX IPT_BASIC_COLOR_A_NX3 ON IPT_BASIC_COLOR_A
---(AUD_PUBLISH_USER_ID)
---LOGGING
---TABLESPACE WIP_INDEX
---PCTFREE    10
---INITRANS   2
---MAXTRANS   255
---STORAGE    (
---            INITIAL          64K
---            NEXT             1M
---            MINEXTENTS       1
---            MAXEXTENTS       UNLIMITED
---            PCTINCREASE      0
---            BUFFER_POOL      DEFAULT
---           );
---
---CREATE INDEX IPT_BASIC_COLOR_A_NX4 ON IPT_BASIC_COLOR_A
---(AUD_LAST_MODIFY_USER_ID)
---LOGGING
---TABLESPACE WIP_INDEX
---PCTFREE    10
---INITRANS   2
---MAXTRANS   255
---STORAGE    (
---            INITIAL          64K
---            NEXT             1M
---            MINEXTENTS       1
---            MAXEXTENTS       UNLIMITED
---            PCTINCREASE      0
---            BUFFER_POOL      DEFAULT
---           );
---
---CREATE INDEX IPT_BASIC_COLOR_A_NX5 ON IPT_BASIC_COLOR_A
---(WIP_STATUS_ID)
---LOGGING
---TABLESPACE WIP_INDEX
---PCTFREE    10
---INITRANS   2
---MAXTRANS   255
---STORAGE    (
---            INITIAL          64K
---            NEXT             1M
---            MINEXTENTS       1
---            MAXEXTENTS       UNLIMITED
---            PCTINCREASE      0
---            BUFFER_POOL      DEFAULT
---           );
---
---ALTER TABLE IPT_BASIC_COLOR_A ADD (
---  CONSTRAINT IPT_BASIC_COLOR_A_FK1 
---  FOREIGN KEY (WIP_STATUS_ID) 
---  REFERENCES CDE_STATUS_S (ID)
---  ENABLE VALIDATE
---,  CONSTRAINT IPT_BASIC_COLOR_A_FK2 
---  FOREIGN KEY (AUD_CREATE_USER_ID) 
---  REFERENCES CUE_USER_S (USER_ID)
---  ENABLE VALIDATE
---,  CONSTRAINT IPT_BASIC_COLOR_A_FK3 
---  FOREIGN KEY (AUD_CHECKOUT_USER_ID) 
---  REFERENCES CUE_USER_S (USER_ID)
---  ENABLE VALIDATE
---,  CONSTRAINT IPT_BASIC_COLOR_A_FK4 
---  FOREIGN KEY (AUD_LAST_MODIFY_USER_ID) 
---  REFERENCES CUE_USER_S (USER_ID)
---  ENABLE VALIDATE
---,  CONSTRAINT IPT_BASIC_COLOR_A_FK5 
---  FOREIGN KEY (AUD_PUBLISH_USER_ID) 
---  REFERENCES CUE_USER_S (USER_ID)
---  ENABLE VALIDATE);
---
---GRANT DELETE, INSERT, UPDATE ON IPT_BASIC_COLOR_A TO APOLLO_DEVELOPER;
---
---GRANT SELECT ON IPT_BASIC_COLOR_A TO APOLLO_SELECT;
---
+ALTER TABLE public.ipt_basic_color_a OWNER TO magellan;
+GRANT ALL ON TABLE public.ipt_basic_color_a TO magellan;

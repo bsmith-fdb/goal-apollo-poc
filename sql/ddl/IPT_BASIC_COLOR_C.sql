@@ -1,95 +1,25 @@
 DROP TABLE IF EXISTS IPT_BASIC_COLOR_C;
 
 
-CREATE TABLE IPT_BASIC_COLOR_C
-(
-  ID                  NUMERIC(8)                 NOT NULL,
-  REV_NBR             NUMERIC(4)                 NOT NULL,
-  DESCRIPTION         CHARACTER VARYING(30 )         NOT NULL,
-  ABBREVIATION        CHARACTER VARYING(7 ),
-  SHORT_ABBREVIATION  CHARACTER VARYING(4 ),
-  DO_NOT_USE_IND      CHARACTER(1 )              NOT NULL,
-  CHANGE_TYPE         CHARACTER(1 )              NOT NULL,
-  CHANGE_USER_ID      NUMERIC(8)                 NOT NULL,
-  CHANGE_TIMESTAMP    TIMESTAMP                      NOT NULL,
-  CONCEPT_REV_NBR     NUMERIC(4)                 NOT NULL,
-  DCR_NBR             NUMERIC(5),
-  LEGACY_CHANGE_USER  CHARACTER VARYING(9 )
+CREATE TABLE public.ipt_basic_color_c (
+	id numeric(8) NOT NULL,
+	rev_nbr numeric(4) NOT NULL,
+	description varchar(30) NOT NULL,
+	abbreviation varchar(7) NULL,
+	short_abbreviation varchar(4) NULL,
+	do_not_use_ind bpchar(1) NOT NULL,
+	change_type bpchar(1) NOT NULL,
+	change_user_id numeric(8) NOT NULL,
+	change_timestamp timestamp NOT NULL,
+	concept_rev_nbr numeric(4) NOT NULL,
+	dcr_nbr numeric(5) NULL,
+	legacy_change_user varchar(9) NULL,
+	CONSTRAINT ipt_basic_color_c_ck1 CHECK ((do_not_use_ind = ANY (ARRAY['0'::bpchar, '1'::bpchar]))),
+	CONSTRAINT ipt_basic_color_c_ck2 CHECK ((change_type = ANY (ARRAY['A'::bpchar, 'C'::bpchar, 'D'::bpchar, 'P'::bpchar, 'R'::bpchar]))),
+	CONSTRAINT ipt_basic_color_c_pk PRIMARY KEY (id, rev_nbr)
 );
 
+-- Permissions
 
---
---TABLESPACE CHG_DATA
---PCTUSED    0
---PCTFREE    10
---INITRANS   1
---MAXTRANS   255
---STORAGE    (
---            INITIAL          64K
---            NEXT             1M
---            MINEXTENTS       1
---            MAXEXTENTS       UNLIMITED
---            PCTINCREASE      0
---            BUFFER_POOL      DEFAULT
---           )
---LOGGING 
---NOCOMPRESS 
---NOCACHE;
---
---
---CREATE UNIQUE INDEX IPT_BASIC_COLOR_C_PK ON IPT_BASIC_COLOR_C
---(ID, REV_NBR)
---LOGGING
---TABLESPACE CHG_INDEX
---PCTFREE    10
---INITRANS   2
---MAXTRANS   255
---STORAGE    (
---            INITIAL          64K
---            NEXT             1M
---            MINEXTENTS       1
---            MAXEXTENTS       UNLIMITED
---            PCTINCREASE      0
---            BUFFER_POOL      DEFAULT
---           );
---
---ALTER TABLE IPT_BASIC_COLOR_C ADD (
---  CONSTRAINT IPT_BASIC_COLOR_C_CK1
---  CHECK (DO_NOT_USE_IND IN ('0', '1'))
---  ENABLE VALIDATE
---,  CONSTRAINT IPT_BASIC_COLOR_C_CK2
---  CHECK (CHANGE_TYPE IN ('A', 'D', 'C', 'P', 'R'))
---  ENABLE VALIDATE
---,  CONSTRAINT IPT_BASIC_COLOR_C_PK
---  PRIMARY KEY
---  (ID, REV_NBR)
---  USING INDEX IPT_BASIC_COLOR_C_PK
---  ENABLE VALIDATE);
---
---
---CREATE INDEX IPT_BASIC_COLOR_C_NX1 ON IPT_BASIC_COLOR_C
---(CHANGE_USER_ID)
---LOGGING
---TABLESPACE CHG_INDEX
---PCTFREE    10
---INITRANS   2
---MAXTRANS   255
---STORAGE    (
---            INITIAL          64K
---            NEXT             1M
---            MINEXTENTS       1
---            MAXEXTENTS       UNLIMITED
---            PCTINCREASE      0
---            BUFFER_POOL      DEFAULT
---           );
---
---ALTER TABLE IPT_BASIC_COLOR_C ADD (
---  CONSTRAINT IPT_BASIC_COLOR_C_FK1 
---  FOREIGN KEY (CHANGE_USER_ID) 
---  REFERENCES CUE_USER_S (USER_ID)
---  ENABLE VALIDATE);
---
---GRANT DELETE, INSERT, UPDATE ON IPT_BASIC_COLOR_C TO APOLLO_DEVELOPER;
---
---GRANT SELECT ON IPT_BASIC_COLOR_C TO APOLLO_SELECT;
---
+ALTER TABLE public.ipt_basic_color_c OWNER TO magellan;
+GRANT ALL ON TABLE public.ipt_basic_color_c TO magellan;

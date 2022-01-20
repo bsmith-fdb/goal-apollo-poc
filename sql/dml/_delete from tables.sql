@@ -1,0 +1,10 @@
+DELETE FROM ipt_color_p;
+DELETE FROM ipt_color_w;
+DELETE FROM ipt_color_a;
+DELETE FROM ipt_color_c;
+DELETE FROM ipt_color_h;
+DELETE FROM ipt_basic_color_p;
+DELETE FROM ipt_basic_color_w;
+DELETE FROM ipt_basic_color_a;
+DELETE FROM ipt_basic_color_c;
+DELETE FROM ipt_basic_color_h;

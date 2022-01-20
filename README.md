@@ -6,3 +6,6 @@
 * [App Building with Azure API Management, Functions, Power Apps, and Logic Apps](https://devblogs.microsoft.com/dotnet/app-building-with-azure-api-management-functions-power-apps-and-logic-apps/)
 * [Automapper Docs](https://docs.automapper.org/en/latest/index.html)
 * [Npgsql Entity Framework Core Provider](https://www.npgsql.org/efcore/)
+* [Entity Framework Core - Scaffolding](https://docs.microsoft.com/en-us/ef/core/managing-schemas/scaffolding?tabs=dotnet-core-cli)
+* [Storing connection strings for developemnt](https://docs.microsoft.com/en-us/ef/core/miscellaneous/connection-strings)
+* [Safe storage of app secrets in development in ASP.NET Core](https://docs.microsoft.com/en-us/aspnet/core/security/app-secrets?view=aspnetcore-6.0&tabs=windows#secret-manager)

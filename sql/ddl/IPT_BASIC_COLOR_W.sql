@@ -1,113 +1,22 @@
 DROP TABLE IF EXISTS IPT_BASIC_COLOR_W;
 
 
-CREATE TABLE IPT_BASIC_COLOR_W
-(
-  ID                  NUMERIC(8)                 NOT NULL,
-  DESCRIPTION         CHARACTER VARYING(30 )         NOT NULL,
-  ABBREVIATION        CHARACTER VARYING(7 )          NOT NULL,
-  SHORT_ABBREVIATION  CHARACTER VARYING(4 )          NOT NULL,
-  DO_NOT_USE_IND      CHARACTER(1 )                                NOT NULL
+CREATE TABLE public.ipt_basic_color_w (
+	id numeric(8) NOT NULL,
+	description varchar(30) NOT NULL,
+	abbreviation varchar(7) NOT NULL,
+	short_abbreviation varchar(4) NOT NULL,
+	do_not_use_ind bpchar(1) NOT NULL,
+	CONSTRAINT ipt_basic_color_w_check CHECK ((do_not_use_ind = ANY (ARRAY['0'::bpchar, '1'::bpchar]))),
+	CONSTRAINT ipt_basic_color_w_pk PRIMARY KEY (id)
 );
 
---
---TABLESPACE WIP_DATA
---PCTUSED    0
---PCTFREE    10
---INITRANS   1
---MAXTRANS   255
---STORAGE    (
---            INITIAL          64K
---            NEXT             1M
---            MINEXTENTS       1
---            MAXEXTENTS       UNLIMITED
---            PCTINCREASE      0
---            BUFFER_POOL      DEFAULT
---           )
---LOGGING 
---NOCOMPRESS 
---NOCACHE;
---
---
---CREATE UNIQUE INDEX IPT_BASIC_COLOR_W_NX1 ON IPT_BASIC_COLOR_W
---(UPPER("DESCRIPTION"))
---LOGGING
---TABLESPACE WIP_INDEX
---PCTFREE    10
---INITRANS   2
---MAXTRANS   255
---STORAGE    (
---            INITIAL          64K
---            NEXT             1M
---            MINEXTENTS       1
---            MAXEXTENTS       UNLIMITED
---            PCTINCREASE      0
---            BUFFER_POOL      DEFAULT
---           );
---CREATE UNIQUE INDEX IPT_BASIC_COLOR_W_NX2 ON IPT_BASIC_COLOR_W
---(UPPER("ABBREVIATION"))
---LOGGING
---TABLESPACE WIP_INDEX
---PCTFREE    10
---INITRANS   2
---MAXTRANS   255
---STORAGE    (
---            INITIAL          64K
---            NEXT             1M
---            MINEXTENTS       1
---            MAXEXTENTS       UNLIMITED
---            PCTINCREASE      0
---            BUFFER_POOL      DEFAULT
---           );
---CREATE UNIQUE INDEX IPT_BASIC_COLOR_W_NX3 ON IPT_BASIC_COLOR_W
---(UPPER("SHORT_ABBREVIATION"))
---LOGGING
---TABLESPACE WIP_INDEX
---PCTFREE    10
---INITRANS   2
---MAXTRANS   255
---STORAGE    (
---            INITIAL          64K
---            NEXT             1M
---            MINEXTENTS       1
---            MAXEXTENTS       UNLIMITED
---            PCTINCREASE      0
---            BUFFER_POOL      DEFAULT
---           );
---CREATE UNIQUE INDEX IPT_BASIC_COLOR_W_PK ON IPT_BASIC_COLOR_W
---(ID)
---LOGGING
---TABLESPACE WIP_INDEX
---PCTFREE    10
---INITRANS   2
---MAXTRANS   255
---STORAGE    (
---            INITIAL          64K
---            NEXT             1M
---            MINEXTENTS       1
---            MAXEXTENTS       UNLIMITED
---            PCTINCREASE      0
---            BUFFER_POOL      DEFAULT
---           );
---
---ALTER TABLE IPT_BASIC_COLOR_W ADD (
---  CONSTRAINT IPT_BASIC_COLOR_W_CK1
---  CHECK (DO_NOT_USE_IND IN ('0', '1'))
---  ENABLE VALIDATE
---,  CONSTRAINT IPT_BASIC_COLOR_W_PK
---  PRIMARY KEY
---  (ID)
---  USING INDEX IPT_BASIC_COLOR_W_PK
---  ENABLE VALIDATE);
---
---
---ALTER TABLE IPT_BASIC_COLOR_W ADD (
---  CONSTRAINT IPT_BASIC_COLOR_W_FK1 
---  FOREIGN KEY (ID) 
---  REFERENCES IPT_BASIC_COLOR_A (ID)
---  ENABLE VALIDATE);
---
---GRANT DELETE, INSERT, UPDATE ON IPT_BASIC_COLOR_W TO APOLLO_DEVELOPER;
---
---GRANT SELECT ON IPT_BASIC_COLOR_W TO APOLLO_SELECT;
---
+-- Permissions
+
+ALTER TABLE public.ipt_basic_color_w OWNER TO magellan;
+GRANT ALL ON TABLE public.ipt_basic_color_w TO magellan;
+
+
+-- public.ipt_basic_color_w foreign keys
+
+ALTER TABLE public.ipt_basic_color_w ADD CONSTRAINT ipt_basic_color_w_fk1 FOREIGN KEY (id) REFERENCES public.ipt_basic_color_a(id);
