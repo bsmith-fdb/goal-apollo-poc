@@ -5,10 +5,18 @@ namespace FDB.Apollo.IPT.Service.Models.EF
 {
     public partial class IptBasicColorP
     {
+        public IptBasicColorP()
+        {
+            IptColorPs = new HashSet<IptColorP>();
+        }
+
         public decimal Id { get; set; }
         public string Description { get; set; } = null!;
         public string Abbreviation { get; set; } = null!;
         public string ShortAbbreviation { get; set; } = null!;
         public char DoNotUseInd { get; set; }
+
+        public virtual IptBasicColorA IdNavigation { get; set; } = null!;
+        public virtual ICollection<IptColorP> IptColorPs { get; set; }
     }
 }

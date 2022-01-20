@@ -18,5 +18,8 @@ namespace FDB.Apollo.IPT.Service.Models.EF
         public DateTime? FirstDeliveredDate { get; set; }
         public DateTime? LastDeliveredDate { get; set; }
         public DateTime? PrevDeliveredDate { get; set; }
+
+        public virtual IptColorP IptColorP { get; set; } = null!;
+        public virtual IptColorW IptColorW { get; set; } = null!;
     }
 }

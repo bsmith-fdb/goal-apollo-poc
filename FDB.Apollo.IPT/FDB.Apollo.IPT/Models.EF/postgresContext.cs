@@ -1,4 +1,7 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using System;
+using System.Collections.Generic;
+using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Metadata;
 
 namespace FDB.Apollo.IPT.Service.Models.EF
 {
@@ -24,14 +27,13 @@ namespace FDB.Apollo.IPT.Service.Models.EF
         public virtual DbSet<IptColorP> IptColorPs { get; set; } = null!;
         public virtual DbSet<IptColorW> IptColorWs { get; set; } = null!;
 
-//        protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
-//        {
-//            if (!optionsBuilder.IsConfigured)
-//            {
-//#warning To protect potentially sensitive information in your connection string, you should move it out of source code. You can avoid scaffolding the connection string by using the Name= syntax to read it from configuration - see https://go.microsoft.com/fwlink/?linkid=2131148. For more guidance on storing connection strings, see http://go.microsoft.com/fwlink/?LinkId=723263.
-//                optionsBuilder.UseNpgsql();
-//            }
-//        }
+        //protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
+        //{
+        //    if (!optionsBuilder.IsConfigured)
+        //    {
+        //        optionsBuilder.UseNpgsql("Name=ConnectionStrings:postgres");
+        //    }
+        //}
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
@@ -40,9 +42,11 @@ namespace FDB.Apollo.IPT.Service.Models.EF
 
             modelBuilder.Entity<IptBasicColorA>(entity =>
             {
-                entity.HasNoKey();
-
                 entity.ToTable("ipt_basic_color_a");
+
+                entity.Property(e => e.Id)
+                    .HasPrecision(8)
+                    .HasColumnName("id");
 
                 entity.Property(e => e.AudCheckoutDate)
                     .HasColumnType("timestamp without time zone")
@@ -79,10 +83,6 @@ namespace FDB.Apollo.IPT.Service.Models.EF
                 entity.Property(e => e.FirstDeliveredDate)
                     .HasColumnType("timestamp without time zone")
                     .HasColumnName("first_delivered_date");
-
-                entity.Property(e => e.Id)
-                    .HasPrecision(8)
-                    .HasColumnName("id");
 
                 entity.Property(e => e.LastDeliveredDate)
                     .HasColumnType("timestamp without time zone")
@@ -99,9 +99,18 @@ namespace FDB.Apollo.IPT.Service.Models.EF
 
             modelBuilder.Entity<IptBasicColorC>(entity =>
             {
-                entity.HasNoKey();
+                entity.HasKey(e => new { e.Id, e.RevNbr })
+                    .HasName("ipt_basic_color_c_pk");
 
                 entity.ToTable("ipt_basic_color_c");
+
+                entity.Property(e => e.Id)
+                    .HasPrecision(8)
+                    .HasColumnName("id");
+
+                entity.Property(e => e.RevNbr)
+                    .HasPrecision(4)
+                    .HasColumnName("rev_nbr");
 
                 entity.Property(e => e.Abbreviation)
                     .HasMaxLength(7)
@@ -135,17 +144,9 @@ namespace FDB.Apollo.IPT.Service.Models.EF
                     .HasMaxLength(1)
                     .HasColumnName("do_not_use_ind");
 
-                entity.Property(e => e.Id)
-                    .HasPrecision(8)
-                    .HasColumnName("id");
-
                 entity.Property(e => e.LegacyChangeUser)
                     .HasMaxLength(9)
                     .HasColumnName("legacy_change_user");
-
-                entity.Property(e => e.RevNbr)
-                    .HasPrecision(4)
-                    .HasColumnName("rev_nbr");
 
                 entity.Property(e => e.ShortAbbreviation)
                     .HasMaxLength(4)
@@ -154,9 +155,18 @@ namespace FDB.Apollo.IPT.Service.Models.EF
 
             modelBuilder.Entity<IptBasicColorH>(entity =>
             {
-                entity.HasNoKey();
+                entity.HasKey(e => new { e.Id, e.RevNbr })
+                    .HasName("ipt_basic_color_h_pk");
 
                 entity.ToTable("ipt_basic_color_h");
+
+                entity.Property(e => e.Id)
+                    .HasPrecision(8)
+                    .HasColumnName("id");
+
+                entity.Property(e => e.RevNbr)
+                    .HasPrecision(4)
+                    .HasColumnName("rev_nbr");
 
                 entity.Property(e => e.ChangeTimestamp)
                     .HasColumnType("timestamp without time zone")
@@ -174,24 +184,18 @@ namespace FDB.Apollo.IPT.Service.Models.EF
                     .HasPrecision(5)
                     .HasColumnName("dcr_nbr");
 
-                entity.Property(e => e.Id)
-                    .HasPrecision(8)
-                    .HasColumnName("id");
-
                 entity.Property(e => e.LegacyChangeUser)
                     .HasMaxLength(9)
                     .HasColumnName("legacy_change_user");
-
-                entity.Property(e => e.RevNbr)
-                    .HasPrecision(4)
-                    .HasColumnName("rev_nbr");
             });
 
             modelBuilder.Entity<IptBasicColorP>(entity =>
             {
-                entity.HasNoKey();
-
                 entity.ToTable("ipt_basic_color_p");
+
+                entity.Property(e => e.Id)
+                    .HasPrecision(8)
+                    .HasColumnName("id");
 
                 entity.Property(e => e.Abbreviation)
                     .HasMaxLength(7)
@@ -205,20 +209,24 @@ namespace FDB.Apollo.IPT.Service.Models.EF
                     .HasMaxLength(1)
                     .HasColumnName("do_not_use_ind");
 
-                entity.Property(e => e.Id)
-                    .HasPrecision(8)
-                    .HasColumnName("id");
-
                 entity.Property(e => e.ShortAbbreviation)
                     .HasMaxLength(4)
                     .HasColumnName("short_abbreviation");
+
+                entity.HasOne(d => d.IdNavigation)
+                    .WithOne(p => p.IptBasicColorP)
+                    .HasForeignKey<IptBasicColorP>(d => d.Id)
+                    .OnDelete(DeleteBehavior.ClientSetNull)
+                    .HasConstraintName("ipt_basic_color_p_fk1");
             });
 
             modelBuilder.Entity<IptBasicColorW>(entity =>
             {
-                entity.HasNoKey();
-
                 entity.ToTable("ipt_basic_color_w");
+
+                entity.Property(e => e.Id)
+                    .HasPrecision(8)
+                    .HasColumnName("id");
 
                 entity.Property(e => e.Abbreviation)
                     .HasMaxLength(7)
@@ -232,20 +240,24 @@ namespace FDB.Apollo.IPT.Service.Models.EF
                     .HasMaxLength(1)
                     .HasColumnName("do_not_use_ind");
 
-                entity.Property(e => e.Id)
-                    .HasPrecision(8)
-                    .HasColumnName("id");
-
                 entity.Property(e => e.ShortAbbreviation)
                     .HasMaxLength(4)
                     .HasColumnName("short_abbreviation");
+
+                entity.HasOne(d => d.IdNavigation)
+                    .WithOne(p => p.IptBasicColorW)
+                    .HasForeignKey<IptBasicColorW>(d => d.Id)
+                    .OnDelete(DeleteBehavior.ClientSetNull)
+                    .HasConstraintName("ipt_basic_color_w_fk1");
             });
 
             modelBuilder.Entity<IptColorA>(entity =>
             {
-                entity.HasNoKey();
-
                 entity.ToTable("ipt_color_a");
+
+                entity.Property(e => e.Id)
+                    .HasPrecision(8)
+                    .HasColumnName("id");
 
                 entity.Property(e => e.AudCheckoutDate)
                     .HasColumnType("timestamp without time zone")
@@ -283,10 +295,6 @@ namespace FDB.Apollo.IPT.Service.Models.EF
                     .HasColumnType("timestamp without time zone")
                     .HasColumnName("first_delivered_date");
 
-                entity.Property(e => e.Id)
-                    .HasPrecision(8)
-                    .HasColumnName("id");
-
                 entity.Property(e => e.LastDeliveredDate)
                     .HasColumnType("timestamp without time zone")
                     .HasColumnName("last_delivered_date");
@@ -302,9 +310,18 @@ namespace FDB.Apollo.IPT.Service.Models.EF
 
             modelBuilder.Entity<IptColorC>(entity =>
             {
-                entity.HasNoKey();
+                entity.HasKey(e => new { e.Id, e.RevNbr })
+                    .HasName("ipt_color_c_pk");
 
                 entity.ToTable("ipt_color_c");
+
+                entity.Property(e => e.Id)
+                    .HasPrecision(8)
+                    .HasColumnName("id");
+
+                entity.Property(e => e.RevNbr)
+                    .HasPrecision(4)
+                    .HasColumnName("rev_nbr");
 
                 entity.Property(e => e.Abbreviation)
                     .HasMaxLength(15)
@@ -342,24 +359,25 @@ namespace FDB.Apollo.IPT.Service.Models.EF
                     .HasMaxLength(1)
                     .HasColumnName("do_not_use_ind");
 
-                entity.Property(e => e.Id)
-                    .HasPrecision(8)
-                    .HasColumnName("id");
-
                 entity.Property(e => e.LegacyChangeUser)
                     .HasMaxLength(9)
                     .HasColumnName("legacy_change_user");
-
-                entity.Property(e => e.RevNbr)
-                    .HasPrecision(4)
-                    .HasColumnName("rev_nbr");
             });
 
             modelBuilder.Entity<IptColorH>(entity =>
             {
-                entity.HasNoKey();
+                entity.HasKey(e => new { e.Id, e.RevNbr })
+                    .HasName("ipt_color_h_pk");
 
                 entity.ToTable("ipt_color_h");
+
+                entity.Property(e => e.Id)
+                    .HasPrecision(8)
+                    .HasColumnName("id");
+
+                entity.Property(e => e.RevNbr)
+                    .HasPrecision(4)
+                    .HasColumnName("rev_nbr");
 
                 entity.Property(e => e.ChangeTimestamp)
                     .HasColumnType("timestamp without time zone")
@@ -377,24 +395,18 @@ namespace FDB.Apollo.IPT.Service.Models.EF
                     .HasPrecision(5)
                     .HasColumnName("dcr_nbr");
 
-                entity.Property(e => e.Id)
-                    .HasPrecision(8)
-                    .HasColumnName("id");
-
                 entity.Property(e => e.LegacyChangeUser)
                     .HasMaxLength(9)
                     .HasColumnName("legacy_change_user");
-
-                entity.Property(e => e.RevNbr)
-                    .HasPrecision(4)
-                    .HasColumnName("rev_nbr");
             });
 
             modelBuilder.Entity<IptColorP>(entity =>
             {
-                entity.HasNoKey();
-
                 entity.ToTable("ipt_color_p");
+
+                entity.Property(e => e.Id)
+                    .HasPrecision(8)
+                    .HasColumnName("id");
 
                 entity.Property(e => e.Abbreviation)
                     .HasMaxLength(15)
@@ -412,16 +424,26 @@ namespace FDB.Apollo.IPT.Service.Models.EF
                     .HasMaxLength(1)
                     .HasColumnName("do_not_use_ind");
 
-                entity.Property(e => e.Id)
-                    .HasPrecision(8)
-                    .HasColumnName("id");
+                entity.HasOne(d => d.BasicColor)
+                    .WithMany(p => p.IptColorPs)
+                    .HasForeignKey(d => d.BasicColorId)
+                    .OnDelete(DeleteBehavior.ClientSetNull)
+                    .HasConstraintName("ipt_color_p_fk2");
+
+                entity.HasOne(d => d.IdNavigation)
+                    .WithOne(p => p.IptColorP)
+                    .HasForeignKey<IptColorP>(d => d.Id)
+                    .OnDelete(DeleteBehavior.ClientSetNull)
+                    .HasConstraintName("ipt_color_p_fk1");
             });
 
             modelBuilder.Entity<IptColorW>(entity =>
             {
-                entity.HasNoKey();
-
                 entity.ToTable("ipt_color_w");
+
+                entity.Property(e => e.Id)
+                    .HasPrecision(8)
+                    .HasColumnName("id");
 
                 entity.Property(e => e.Abbreviation)
                     .HasMaxLength(15)
@@ -439,9 +461,17 @@ namespace FDB.Apollo.IPT.Service.Models.EF
                     .HasMaxLength(1)
                     .HasColumnName("do_not_use_ind");
 
-                entity.Property(e => e.Id)
-                    .HasPrecision(8)
-                    .HasColumnName("id");
+                entity.HasOne(d => d.BasicColor)
+                    .WithMany(p => p.IptColorWs)
+                    .HasForeignKey(d => d.BasicColorId)
+                    .OnDelete(DeleteBehavior.ClientSetNull)
+                    .HasConstraintName("ipt_color_w_fk2");
+
+                entity.HasOne(d => d.IdNavigation)
+                    .WithOne(p => p.IptColorW)
+                    .HasForeignKey<IptColorW>(d => d.Id)
+                    .OnDelete(DeleteBehavior.ClientSetNull)
+                    .HasConstraintName("ipt_color_w_fk1");
             });
 
             OnModelCreatingPartial(modelBuilder);
