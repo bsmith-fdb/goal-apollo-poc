@@ -1,10 +1,14 @@
-DROP TABLE IF EXISTS IPT_COLOR_H;
+-- public.ipt_color_h definition
+
+-- Drop table
+
+-- DROP TABLE public.ipt_color_h;
 
 CREATE TABLE public.ipt_color_h (
 	id numeric(8) NOT NULL,
 	rev_nbr numeric(4) NOT NULL,
 	change_user_id numeric(8) NOT NULL,
-	change_timestamp timestamp NOT NULL,
+	change_timestamp timestamptz NOT NULL,
 	change_type bpchar(1) NOT NULL,
 	dcr_nbr numeric(5) NULL,
 	legacy_change_user varchar(9) NULL,

@@ -1,5 +1,8 @@
-DROP TABLE IF EXISTS IPT_BASIC_COLOR_P;
+-- public.ipt_basic_color_p definition
 
+-- Drop table
+
+-- DROP TABLE public.ipt_basic_color_p;
 
 CREATE TABLE public.ipt_basic_color_p (
 	id numeric(8) NOT NULL,

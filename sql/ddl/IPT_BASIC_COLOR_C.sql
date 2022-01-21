@@ -1,5 +1,8 @@
-DROP TABLE IF EXISTS IPT_BASIC_COLOR_C;
+-- public.ipt_basic_color_c definition
 
+-- Drop table
+
+-- DROP TABLE public.ipt_basic_color_c;
 
 CREATE TABLE public.ipt_basic_color_c (
 	id numeric(8) NOT NULL,
@@ -10,7 +13,7 @@ CREATE TABLE public.ipt_basic_color_c (
 	do_not_use_ind bpchar(1) NOT NULL,
 	change_type bpchar(1) NOT NULL,
 	change_user_id numeric(8) NOT NULL,
-	change_timestamp timestamp NOT NULL,
+	change_timestamp timestamptz NOT NULL,
 	concept_rev_nbr numeric(4) NOT NULL,
 	dcr_nbr numeric(5) NULL,
 	legacy_change_user varchar(9) NULL,

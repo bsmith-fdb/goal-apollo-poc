@@ -50,7 +50,7 @@ namespace FDB.Apollo.IPT.Service.Models.EF
                     .HasColumnName("id");
 
                 entity.Property(e => e.AudCheckoutDate)
-                    .HasColumnType("timestamp without time zone")
+                    .HasColumnType("timestamp with time zone")
                     .HasColumnName("aud_checkout_date");
 
                 entity.Property(e => e.AudCheckoutUserId)
@@ -58,7 +58,7 @@ namespace FDB.Apollo.IPT.Service.Models.EF
                     .HasColumnName("aud_checkout_user_id");
 
                 entity.Property(e => e.AudCreateDate)
-                    .HasColumnType("timestamp without time zone")
+                    .HasColumnType("timestamp with time zone")
                     .HasColumnName("aud_create_date");
 
                 entity.Property(e => e.AudCreateUserId)
@@ -66,7 +66,7 @@ namespace FDB.Apollo.IPT.Service.Models.EF
                     .HasColumnName("aud_create_user_id");
 
                 entity.Property(e => e.AudLastModifyDate)
-                    .HasColumnType("timestamp without time zone")
+                    .HasColumnType("timestamp with time zone")
                     .HasColumnName("aud_last_modify_date");
 
                 entity.Property(e => e.AudLastModifyUserId)
@@ -74,7 +74,7 @@ namespace FDB.Apollo.IPT.Service.Models.EF
                     .HasColumnName("aud_last_modify_user_id");
 
                 entity.Property(e => e.AudPublishDate)
-                    .HasColumnType("timestamp without time zone")
+                    .HasColumnType("timestamp with time zone")
                     .HasColumnName("aud_publish_date");
 
                 entity.Property(e => e.AudPublishUserId)
@@ -82,15 +82,15 @@ namespace FDB.Apollo.IPT.Service.Models.EF
                     .HasColumnName("aud_publish_user_id");
 
                 entity.Property(e => e.FirstDeliveredDate)
-                    .HasColumnType("timestamp without time zone")
+                    .HasColumnType("timestamp with time zone")
                     .HasColumnName("first_delivered_date");
 
                 entity.Property(e => e.LastDeliveredDate)
-                    .HasColumnType("timestamp without time zone")
+                    .HasColumnType("timestamp with time zone")
                     .HasColumnName("last_delivered_date");
 
                 entity.Property(e => e.PrevDeliveredDate)
-                    .HasColumnType("timestamp without time zone")
+                    .HasColumnType("timestamp with time zone")
                     .HasColumnName("prev_delivered_date");
 
                 entity.Property(e => e.WipStatusId)
@@ -118,7 +118,7 @@ namespace FDB.Apollo.IPT.Service.Models.EF
                     .HasColumnName("abbreviation");
 
                 entity.Property(e => e.ChangeTimestamp)
-                    .HasColumnType("timestamp without time zone")
+                    .HasColumnType("timestamp with time zone")
                     .HasColumnName("change_timestamp");
 
                 entity.Property(e => e.ChangeType)
@@ -170,7 +170,7 @@ namespace FDB.Apollo.IPT.Service.Models.EF
                     .HasColumnName("rev_nbr");
 
                 entity.Property(e => e.ChangeTimestamp)
-                    .HasColumnType("timestamp without time zone")
+                    .HasColumnType("timestamp with time zone")
                     .HasColumnName("change_timestamp");
 
                 entity.Property(e => e.ChangeType)
@@ -261,7 +261,7 @@ namespace FDB.Apollo.IPT.Service.Models.EF
                     .HasColumnName("id");
 
                 entity.Property(e => e.AudCheckoutDate)
-                    .HasColumnType("timestamp without time zone")
+                    .HasColumnType("timestamp with time zone")
                     .HasColumnName("aud_checkout_date");
 
                 entity.Property(e => e.AudCheckoutUserId)
@@ -269,7 +269,7 @@ namespace FDB.Apollo.IPT.Service.Models.EF
                     .HasColumnName("aud_checkout_user_id");
 
                 entity.Property(e => e.AudCreateDate)
-                    .HasColumnType("timestamp without time zone")
+                    .HasColumnType("timestamp with time zone")
                     .HasColumnName("aud_create_date");
 
                 entity.Property(e => e.AudCreateUserId)
@@ -277,7 +277,7 @@ namespace FDB.Apollo.IPT.Service.Models.EF
                     .HasColumnName("aud_create_user_id");
 
                 entity.Property(e => e.AudLastModifyDate)
-                    .HasColumnType("timestamp without time zone")
+                    .HasColumnType("timestamp with time zone")
                     .HasColumnName("aud_last_modify_date");
 
                 entity.Property(e => e.AudLastModifyUserId)
@@ -285,7 +285,7 @@ namespace FDB.Apollo.IPT.Service.Models.EF
                     .HasColumnName("aud_last_modify_user_id");
 
                 entity.Property(e => e.AudPublishDate)
-                    .HasColumnType("timestamp without time zone")
+                    .HasColumnType("timestamp with time zone")
                     .HasColumnName("aud_publish_date");
 
                 entity.Property(e => e.AudPublishUserId)
@@ -293,15 +293,15 @@ namespace FDB.Apollo.IPT.Service.Models.EF
                     .HasColumnName("aud_publish_user_id");
 
                 entity.Property(e => e.FirstDeliveredDate)
-                    .HasColumnType("timestamp without time zone")
+                    .HasColumnType("timestamp with time zone")
                     .HasColumnName("first_delivered_date");
 
                 entity.Property(e => e.LastDeliveredDate)
-                    .HasColumnType("timestamp without time zone")
+                    .HasColumnType("timestamp with time zone")
                     .HasColumnName("last_delivered_date");
 
                 entity.Property(e => e.PrevDeliveredDate)
-                    .HasColumnType("timestamp without time zone")
+                    .HasColumnType("timestamp with time zone")
                     .HasColumnName("prev_delivered_date");
 
                 entity.Property(e => e.WipStatusId)
@@ -333,7 +333,7 @@ namespace FDB.Apollo.IPT.Service.Models.EF
                     .HasColumnName("basic_color_id");
 
                 entity.Property(e => e.ChangeTimestamp)
-                    .HasColumnType("timestamp without time zone")
+                    .HasColumnType("timestamp with time zone")
                     .HasColumnName("change_timestamp");
 
                 entity.Property(e => e.ChangeType)
@@ -381,7 +381,7 @@ namespace FDB.Apollo.IPT.Service.Models.EF
                     .HasColumnName("rev_nbr");
 
                 entity.Property(e => e.ChangeTimestamp)
-                    .HasColumnType("timestamp without time zone")
+                    .HasColumnType("timestamp with time zone")
                     .HasColumnName("change_timestamp");
 
                 entity.Property(e => e.ChangeType)

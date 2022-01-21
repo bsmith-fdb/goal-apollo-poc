@@ -7,6 +7,9 @@ namespace FDB.Apollo.IPT.Service.Models
     {
         public AutoMapperProfile()
         {
+            CreateMap<bool, char>().ConvertUsing(source => source ? '1' : '0');
+            CreateMap<char, bool>().ConvertUsing(source => source == '1' ? true : false);
+
             CreateMap<IAudit, PublishAudit>()
                 .ForMember(dest => dest.ID, opt => opt.MapFrom(src => src.Id))
                 .ForMember(dest => dest.WIPStatusID, opt => opt.MapFrom(src => src.WipStatusId))
@@ -25,10 +28,12 @@ namespace FDB.Apollo.IPT.Service.Models
 
             CreateMap<Color, IptColorW>().ReverseMap();
             CreateMap<Color, IptColorP>().ReverseMap();
+            CreateMap<Color, IptColorC>().ReverseMap();
             CreateMap<PublishAudit, IptColorA>().ReverseMap();
 
             CreateMap<BasicColor, IptBasicColorW>().ReverseMap();
             CreateMap<BasicColor, IptBasicColorP>().ReverseMap();
+            CreateMap<BasicColor, IptBasicColorC>().ReverseMap();
             CreateMap<PublishAudit, IptBasicColorA>().ReverseMap();
         }
     }
