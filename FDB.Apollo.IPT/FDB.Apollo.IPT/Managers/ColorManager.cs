@@ -1,7 +1,6 @@
 ﻿using AutoMapper;
 using FDB.Apollo.IPT.Service.Models;
 using FDB.Apollo.IPT.Service.Models.EF;
-using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 
 namespace FDB.Apollo.IPT.Service.Managers
@@ -19,41 +18,43 @@ namespace FDB.Apollo.IPT.Service.Managers
 
         public async Task<IEnumerable<Color>> GetColors(DbContextLocale locale)
         {
+            IQueryable<dynamic> q;
+            bool sourceWIP;
+
             switch (locale)
             {
                 case DbContextLocale.Working:
-                    var qw = from aud in _context.IptColorAs
-                             join wip in _context.IptColorWs on aud.Id equals wip.Id
-                             join bc in _context.IptBasicColorWs on wip.BasicColorId equals bc.Id
-                             select new { aud, wip, bc};
-
-                    return (await qw.ToListAsync())
-                        .Select(x =>
+                    sourceWIP = true;
+                    q = from color in _context.IptColorWs
+                        select new
                         {
-                            var r = _mapper.Map<Color>(x.wip);
-                            r.Audit = _mapper.Map<PublishAudit>(x.aud);
-                            r.Audit.SourceWIP = true;
-                            r.BasicColor = _mapper.Map<BasicColor>(x.bc);
-                            return r;
-                        });
+                            Color = color,
+                            ColorAudit = color.Audit,
+                            BasicColor = color.BasicColor,
+                            BasicColorAudit = color.BasicColor.Audit
+                        };
+                    break;
                 case DbContextLocale.Published:
-                    var qp = from aud in _context.IptColorAs
-                             join pub in _context.IptColorPs on aud.Id equals pub.Id
-                             join bc in _context.IptBasicColorPs on pub.BasicColorId equals bc.Id
-                             select new { aud, pub, bc};
-
-                    return (await qp.ToListAsync())
-                        .Select(x =>
+                    sourceWIP = false;
+                    q = from color in _context.IptColorPs
+                        select new
                         {
-                            var r = _mapper.Map<Color>(x.pub);
-                            r.Audit = _mapper.Map<PublishAudit>(x.aud);
-                            r.Audit.SourceWIP = false;
-                            r.BasicColor = _mapper.Map<BasicColor>(x.bc);
-                            return r;
-                        });
+                            Color = color,
+                            ColorAudit = color.Audit,
+                            BasicColor = color.BasicColor,
+                            BasicColorAudit = color.BasicColor.Audit
+                        };
+                    break;
                 default:
                     throw new ArgumentOutOfRangeException(nameof(locale));
             }
+
+            return (await q.ToListAsync()).Select(c =>
+            {
+                Color color = _mapper.Map<Color>(c.Color);
+                color.Audit.SourceWIP = color.BasicColor.Audit.SourceWIP = sourceWIP;
+                return color;
+            });
         }
     }
 }

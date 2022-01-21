@@ -16,7 +16,7 @@ namespace FDB.Apollo.IPT.Service.Models.EF
         public string ShortAbbreviation { get; set; } = null!;
         public char DoNotUseInd { get; set; }
 
-        public virtual IptBasicColorA IdNavigation { get; set; } = null!;
+        public virtual IptBasicColorA Audit { get; set; } = null!;
         public virtual ICollection<IptColorP> IptColorPs { get; set; }
     }
 }

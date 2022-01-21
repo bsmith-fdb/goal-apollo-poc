@@ -1,9 +1,4 @@
-﻿using System.ComponentModel.DataAnnotations;
-using AutoMapper;
-using AutoMapper.Configuration.Annotations;
-using FDB.Apollo.IPT.Service.Models.EF;
-
-namespace FDB.Apollo.IPT.Service.Models
+﻿namespace FDB.Apollo.IPT.Service.Models
 {
     public class PublishAudit
     {

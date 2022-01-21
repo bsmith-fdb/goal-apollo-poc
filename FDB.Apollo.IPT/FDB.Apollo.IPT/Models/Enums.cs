@@ -1,6 +1,4 @@
-﻿using System.ComponentModel.DataAnnotations;
-
-namespace FDB.Apollo.IPT.Service.Models
+﻿namespace FDB.Apollo.IPT.Service.Models
 {
     public enum DbContextLocale : short
     {

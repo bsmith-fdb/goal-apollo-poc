@@ -12,6 +12,6 @@ namespace FDB.Apollo.IPT.Service.Models.EF
         public char DoNotUseInd { get; set; }
 
         public virtual IptBasicColorW BasicColor { get; set; } = null!;
-        public virtual IptColorA IdNavigation { get; set; } = null!;
+        public virtual IptColorA Audit { get; set; } = null!;
     }
 }

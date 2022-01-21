@@ -1,6 +1,6 @@
 ﻿namespace FDB.Apollo.IPT.Service.Models.EF
 {
-    public class AuditBase
+    interface IAudit
     {
         public decimal Id { get; set; }
         public decimal WipStatusId { get; set; }

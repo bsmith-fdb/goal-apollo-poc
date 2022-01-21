@@ -214,7 +214,7 @@ namespace FDB.Apollo.IPT.Service.Models.EF
                     .HasMaxLength(4)
                     .HasColumnName("short_abbreviation");
 
-                entity.HasOne(d => d.IdNavigation)
+                entity.HasOne(d => d.Audit)
                     .WithOne(p => p.IptBasicColorP)
                     .HasForeignKey<IptBasicColorP>(d => d.Id)
                     .OnDelete(DeleteBehavior.ClientSetNull)
@@ -245,7 +245,7 @@ namespace FDB.Apollo.IPT.Service.Models.EF
                     .HasMaxLength(4)
                     .HasColumnName("short_abbreviation");
 
-                entity.HasOne(d => d.IdNavigation)
+                entity.HasOne(d => d.Audit)
                     .WithOne(p => p.IptBasicColorW)
                     .HasForeignKey<IptBasicColorW>(d => d.Id)
                     .OnDelete(DeleteBehavior.ClientSetNull)
@@ -431,7 +431,7 @@ namespace FDB.Apollo.IPT.Service.Models.EF
                     .OnDelete(DeleteBehavior.ClientSetNull)
                     .HasConstraintName("ipt_color_p_fk2");
 
-                entity.HasOne(d => d.IdNavigation)
+                entity.HasOne(d => d.Audit)
                     .WithOne(p => p.IptColorP)
                     .HasForeignKey<IptColorP>(d => d.Id)
                     .OnDelete(DeleteBehavior.ClientSetNull)
@@ -468,7 +468,7 @@ namespace FDB.Apollo.IPT.Service.Models.EF
                     .OnDelete(DeleteBehavior.ClientSetNull)
                     .HasConstraintName("ipt_color_w_fk2");
 
-                entity.HasOne(d => d.IdNavigation)
+                entity.HasOne(d => d.Audit)
                     .WithOne(p => p.IptColorW)
                     .HasForeignKey<IptColorW>(d => d.Id)
                     .OnDelete(DeleteBehavior.ClientSetNull)

@@ -7,7 +7,7 @@ namespace FDB.Apollo.IPT.Service.Models
     {
         public AutoMapperProfile()
         {
-            CreateMap<AuditBase, PublishAudit>()
+            CreateMap<IAudit, PublishAudit>()
                 .ForMember(dest => dest.ID, opt => opt.MapFrom(src => src.Id))
                 .ForMember(dest => dest.WIPStatusID, opt => opt.MapFrom(src => src.WipStatusId))
                 .ForMember(dest => dest.CreateDate, opt => opt.MapFrom(src => src.AudCreateDate))
@@ -20,12 +20,12 @@ namespace FDB.Apollo.IPT.Service.Models
                 .ForMember(dest => dest.PublishedUserID, opt => opt.MapFrom(src => src.AudPublishUserId))
                 .ForMember(dest => dest.FirstDeliveredDate, opt => opt.MapFrom(src => src.FirstDeliveredDate))
                 .ForMember(dest => dest.LastDeliveredDate, opt => opt.MapFrom(src => src.LastDeliveredDate))
-                .IncludeAllDerived();
+                .IncludeAllDerived()
+                .ReverseMap();
 
             CreateMap<Color, IptColorW>().ReverseMap();
             CreateMap<Color, IptColorP>().ReverseMap();
-            CreateMap<IptColorA, PublishAudit>()
-                .IncludeBase<AuditBase, PublishAudit>();
+            CreateMap<PublishAudit, IptColorA>().ReverseMap();
 
             CreateMap<BasicColor, IptBasicColorW>().ReverseMap();
             CreateMap<BasicColor, IptBasicColorP>().ReverseMap();
