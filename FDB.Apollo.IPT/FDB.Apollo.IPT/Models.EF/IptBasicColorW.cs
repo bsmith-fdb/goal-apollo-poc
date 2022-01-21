@@ -10,7 +10,7 @@ namespace FDB.Apollo.IPT.Service.Models.EF
             IptColorWs = new HashSet<IptColorW>();
         }
 
-        public decimal Id { get; set; }
+        public long Id { get; set; }
         public string Description { get; set; } = null!;
         public string Abbreviation { get; set; } = null!;
         public string ShortAbbreviation { get; set; } = null!;

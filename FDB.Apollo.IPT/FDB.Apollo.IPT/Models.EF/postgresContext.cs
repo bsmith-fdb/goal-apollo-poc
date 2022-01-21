@@ -38,7 +38,7 @@ namespace FDB.Apollo.IPT.Service.Models.EF
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
-            modelBuilder.HasPostgresExtension("pg_catalog", "azure")
+            modelBuilder.HasPostgresExtension("azure")
                 .HasPostgresExtension("pg_cron");
 
             modelBuilder.Entity<IptBasicColorA>(entity =>
@@ -46,56 +46,32 @@ namespace FDB.Apollo.IPT.Service.Models.EF
                 entity.ToTable("ipt_basic_color_a");
 
                 entity.Property(e => e.Id)
-                    .HasPrecision(8)
-                    .HasColumnName("id");
+                    .HasColumnName("id")
+                    .UseIdentityAlwaysColumn();
 
-                entity.Property(e => e.AudCheckoutDate)
-                    .HasColumnType("timestamp with time zone")
-                    .HasColumnName("aud_checkout_date");
+                entity.Property(e => e.AudCheckoutDate).HasColumnName("aud_checkout_date");
 
-                entity.Property(e => e.AudCheckoutUserId)
-                    .HasPrecision(8)
-                    .HasColumnName("aud_checkout_user_id");
+                entity.Property(e => e.AudCheckoutUserId).HasColumnName("aud_checkout_user_id");
 
-                entity.Property(e => e.AudCreateDate)
-                    .HasColumnType("timestamp with time zone")
-                    .HasColumnName("aud_create_date");
+                entity.Property(e => e.AudCreateDate).HasColumnName("aud_create_date");
 
-                entity.Property(e => e.AudCreateUserId)
-                    .HasPrecision(8)
-                    .HasColumnName("aud_create_user_id");
+                entity.Property(e => e.AudCreateUserId).HasColumnName("aud_create_user_id");
 
-                entity.Property(e => e.AudLastModifyDate)
-                    .HasColumnType("timestamp with time zone")
-                    .HasColumnName("aud_last_modify_date");
+                entity.Property(e => e.AudLastModifyDate).HasColumnName("aud_last_modify_date");
 
-                entity.Property(e => e.AudLastModifyUserId)
-                    .HasPrecision(8)
-                    .HasColumnName("aud_last_modify_user_id");
+                entity.Property(e => e.AudLastModifyUserId).HasColumnName("aud_last_modify_user_id");
 
-                entity.Property(e => e.AudPublishDate)
-                    .HasColumnType("timestamp with time zone")
-                    .HasColumnName("aud_publish_date");
+                entity.Property(e => e.AudPublishDate).HasColumnName("aud_publish_date");
 
-                entity.Property(e => e.AudPublishUserId)
-                    .HasPrecision(8)
-                    .HasColumnName("aud_publish_user_id");
+                entity.Property(e => e.AudPublishUserId).HasColumnName("aud_publish_user_id");
 
-                entity.Property(e => e.FirstDeliveredDate)
-                    .HasColumnType("timestamp with time zone")
-                    .HasColumnName("first_delivered_date");
+                entity.Property(e => e.FirstDeliveredDate).HasColumnName("first_delivered_date");
 
-                entity.Property(e => e.LastDeliveredDate)
-                    .HasColumnType("timestamp with time zone")
-                    .HasColumnName("last_delivered_date");
+                entity.Property(e => e.LastDeliveredDate).HasColumnName("last_delivered_date");
 
-                entity.Property(e => e.PrevDeliveredDate)
-                    .HasColumnType("timestamp with time zone")
-                    .HasColumnName("prev_delivered_date");
+                entity.Property(e => e.PrevDeliveredDate).HasColumnName("prev_delivered_date");
 
-                entity.Property(e => e.WipStatusId)
-                    .HasPrecision(8)
-                    .HasColumnName("wip_status_id");
+                entity.Property(e => e.WipStatusId).HasColumnName("wip_status_id");
             });
 
             modelBuilder.Entity<IptBasicColorC>(entity =>
@@ -105,37 +81,25 @@ namespace FDB.Apollo.IPT.Service.Models.EF
 
                 entity.ToTable("ipt_basic_color_c");
 
-                entity.Property(e => e.Id)
-                    .HasPrecision(8)
-                    .HasColumnName("id");
+                entity.Property(e => e.Id).HasColumnName("id");
 
-                entity.Property(e => e.RevNbr)
-                    .HasPrecision(4)
-                    .HasColumnName("rev_nbr");
+                entity.Property(e => e.RevNbr).HasColumnName("rev_nbr");
 
                 entity.Property(e => e.Abbreviation)
                     .HasMaxLength(7)
                     .HasColumnName("abbreviation");
 
-                entity.Property(e => e.ChangeTimestamp)
-                    .HasColumnType("timestamp with time zone")
-                    .HasColumnName("change_timestamp");
+                entity.Property(e => e.ChangeTimestamp).HasColumnName("change_timestamp");
 
                 entity.Property(e => e.ChangeType)
                     .HasMaxLength(1)
                     .HasColumnName("change_type");
 
-                entity.Property(e => e.ChangeUserId)
-                    .HasPrecision(8)
-                    .HasColumnName("change_user_id");
+                entity.Property(e => e.ChangeUserId).HasColumnName("change_user_id");
 
-                entity.Property(e => e.ConceptRevNbr)
-                    .HasPrecision(4)
-                    .HasColumnName("concept_rev_nbr");
+                entity.Property(e => e.ConceptRevNbr).HasColumnName("concept_rev_nbr");
 
-                entity.Property(e => e.DcrNbr)
-                    .HasPrecision(5)
-                    .HasColumnName("dcr_nbr");
+                entity.Property(e => e.DcrNbr).HasColumnName("dcr_nbr");
 
                 entity.Property(e => e.Description)
                     .HasMaxLength(30)
@@ -161,29 +125,19 @@ namespace FDB.Apollo.IPT.Service.Models.EF
 
                 entity.ToTable("ipt_basic_color_h");
 
-                entity.Property(e => e.Id)
-                    .HasPrecision(8)
-                    .HasColumnName("id");
+                entity.Property(e => e.Id).HasColumnName("id");
 
-                entity.Property(e => e.RevNbr)
-                    .HasPrecision(4)
-                    .HasColumnName("rev_nbr");
+                entity.Property(e => e.RevNbr).HasColumnName("rev_nbr");
 
-                entity.Property(e => e.ChangeTimestamp)
-                    .HasColumnType("timestamp with time zone")
-                    .HasColumnName("change_timestamp");
+                entity.Property(e => e.ChangeTimestamp).HasColumnName("change_timestamp");
 
                 entity.Property(e => e.ChangeType)
                     .HasMaxLength(1)
                     .HasColumnName("change_type");
 
-                entity.Property(e => e.ChangeUserId)
-                    .HasPrecision(8)
-                    .HasColumnName("change_user_id");
+                entity.Property(e => e.ChangeUserId).HasColumnName("change_user_id");
 
-                entity.Property(e => e.DcrNbr)
-                    .HasPrecision(5)
-                    .HasColumnName("dcr_nbr");
+                entity.Property(e => e.DcrNbr).HasColumnName("dcr_nbr");
 
                 entity.Property(e => e.LegacyChangeUser)
                     .HasMaxLength(9)
@@ -195,7 +149,7 @@ namespace FDB.Apollo.IPT.Service.Models.EF
                 entity.ToTable("ipt_basic_color_p");
 
                 entity.Property(e => e.Id)
-                    .HasPrecision(8)
+                    .ValueGeneratedNever()
                     .HasColumnName("id");
 
                 entity.Property(e => e.Abbreviation)
@@ -226,7 +180,7 @@ namespace FDB.Apollo.IPT.Service.Models.EF
                 entity.ToTable("ipt_basic_color_w");
 
                 entity.Property(e => e.Id)
-                    .HasPrecision(8)
+                    .ValueGeneratedNever()
                     .HasColumnName("id");
 
                 entity.Property(e => e.Abbreviation)
@@ -257,56 +211,32 @@ namespace FDB.Apollo.IPT.Service.Models.EF
                 entity.ToTable("ipt_color_a");
 
                 entity.Property(e => e.Id)
-                    .HasPrecision(8)
-                    .HasColumnName("id");
+                    .HasColumnName("id")
+                    .UseIdentityAlwaysColumn();
 
-                entity.Property(e => e.AudCheckoutDate)
-                    .HasColumnType("timestamp with time zone")
-                    .HasColumnName("aud_checkout_date");
+                entity.Property(e => e.AudCheckoutDate).HasColumnName("aud_checkout_date");
 
-                entity.Property(e => e.AudCheckoutUserId)
-                    .HasPrecision(8)
-                    .HasColumnName("aud_checkout_user_id");
+                entity.Property(e => e.AudCheckoutUserId).HasColumnName("aud_checkout_user_id");
 
-                entity.Property(e => e.AudCreateDate)
-                    .HasColumnType("timestamp with time zone")
-                    .HasColumnName("aud_create_date");
+                entity.Property(e => e.AudCreateDate).HasColumnName("aud_create_date");
 
-                entity.Property(e => e.AudCreateUserId)
-                    .HasPrecision(8)
-                    .HasColumnName("aud_create_user_id");
+                entity.Property(e => e.AudCreateUserId).HasColumnName("aud_create_user_id");
 
-                entity.Property(e => e.AudLastModifyDate)
-                    .HasColumnType("timestamp with time zone")
-                    .HasColumnName("aud_last_modify_date");
+                entity.Property(e => e.AudLastModifyDate).HasColumnName("aud_last_modify_date");
 
-                entity.Property(e => e.AudLastModifyUserId)
-                    .HasPrecision(8)
-                    .HasColumnName("aud_last_modify_user_id");
+                entity.Property(e => e.AudLastModifyUserId).HasColumnName("aud_last_modify_user_id");
 
-                entity.Property(e => e.AudPublishDate)
-                    .HasColumnType("timestamp with time zone")
-                    .HasColumnName("aud_publish_date");
+                entity.Property(e => e.AudPublishDate).HasColumnName("aud_publish_date");
 
-                entity.Property(e => e.AudPublishUserId)
-                    .HasPrecision(8)
-                    .HasColumnName("aud_publish_user_id");
+                entity.Property(e => e.AudPublishUserId).HasColumnName("aud_publish_user_id");
 
-                entity.Property(e => e.FirstDeliveredDate)
-                    .HasColumnType("timestamp with time zone")
-                    .HasColumnName("first_delivered_date");
+                entity.Property(e => e.FirstDeliveredDate).HasColumnName("first_delivered_date");
 
-                entity.Property(e => e.LastDeliveredDate)
-                    .HasColumnType("timestamp with time zone")
-                    .HasColumnName("last_delivered_date");
+                entity.Property(e => e.LastDeliveredDate).HasColumnName("last_delivered_date");
 
-                entity.Property(e => e.PrevDeliveredDate)
-                    .HasColumnType("timestamp with time zone")
-                    .HasColumnName("prev_delivered_date");
+                entity.Property(e => e.PrevDeliveredDate).HasColumnName("prev_delivered_date");
 
-                entity.Property(e => e.WipStatusId)
-                    .HasPrecision(8)
-                    .HasColumnName("wip_status_id");
+                entity.Property(e => e.WipStatusId).HasColumnName("wip_status_id");
             });
 
             modelBuilder.Entity<IptColorC>(entity =>
@@ -316,41 +246,27 @@ namespace FDB.Apollo.IPT.Service.Models.EF
 
                 entity.ToTable("ipt_color_c");
 
-                entity.Property(e => e.Id)
-                    .HasPrecision(8)
-                    .HasColumnName("id");
+                entity.Property(e => e.Id).HasColumnName("id");
 
-                entity.Property(e => e.RevNbr)
-                    .HasPrecision(4)
-                    .HasColumnName("rev_nbr");
+                entity.Property(e => e.RevNbr).HasColumnName("rev_nbr");
 
                 entity.Property(e => e.Abbreviation)
                     .HasMaxLength(15)
                     .HasColumnName("abbreviation");
 
-                entity.Property(e => e.BasicColorId)
-                    .HasPrecision(8)
-                    .HasColumnName("basic_color_id");
+                entity.Property(e => e.BasicColorId).HasColumnName("basic_color_id");
 
-                entity.Property(e => e.ChangeTimestamp)
-                    .HasColumnType("timestamp with time zone")
-                    .HasColumnName("change_timestamp");
+                entity.Property(e => e.ChangeTimestamp).HasColumnName("change_timestamp");
 
                 entity.Property(e => e.ChangeType)
                     .HasMaxLength(1)
                     .HasColumnName("change_type");
 
-                entity.Property(e => e.ChangeUserId)
-                    .HasPrecision(8)
-                    .HasColumnName("change_user_id");
+                entity.Property(e => e.ChangeUserId).HasColumnName("change_user_id");
 
-                entity.Property(e => e.ConceptRevNbr)
-                    .HasPrecision(4)
-                    .HasColumnName("concept_rev_nbr");
+                entity.Property(e => e.ConceptRevNbr).HasColumnName("concept_rev_nbr");
 
-                entity.Property(e => e.DcrNbr)
-                    .HasPrecision(5)
-                    .HasColumnName("dcr_nbr");
+                entity.Property(e => e.DcrNbr).HasColumnName("dcr_nbr");
 
                 entity.Property(e => e.Description)
                     .HasMaxLength(30)
@@ -372,29 +288,19 @@ namespace FDB.Apollo.IPT.Service.Models.EF
 
                 entity.ToTable("ipt_color_h");
 
-                entity.Property(e => e.Id)
-                    .HasPrecision(8)
-                    .HasColumnName("id");
+                entity.Property(e => e.Id).HasColumnName("id");
 
-                entity.Property(e => e.RevNbr)
-                    .HasPrecision(4)
-                    .HasColumnName("rev_nbr");
+                entity.Property(e => e.RevNbr).HasColumnName("rev_nbr");
 
-                entity.Property(e => e.ChangeTimestamp)
-                    .HasColumnType("timestamp with time zone")
-                    .HasColumnName("change_timestamp");
+                entity.Property(e => e.ChangeTimestamp).HasColumnName("change_timestamp");
 
                 entity.Property(e => e.ChangeType)
                     .HasMaxLength(1)
                     .HasColumnName("change_type");
 
-                entity.Property(e => e.ChangeUserId)
-                    .HasPrecision(8)
-                    .HasColumnName("change_user_id");
+                entity.Property(e => e.ChangeUserId).HasColumnName("change_user_id");
 
-                entity.Property(e => e.DcrNbr)
-                    .HasPrecision(5)
-                    .HasColumnName("dcr_nbr");
+                entity.Property(e => e.DcrNbr).HasColumnName("dcr_nbr");
 
                 entity.Property(e => e.LegacyChangeUser)
                     .HasMaxLength(9)
@@ -406,16 +312,14 @@ namespace FDB.Apollo.IPT.Service.Models.EF
                 entity.ToTable("ipt_color_p");
 
                 entity.Property(e => e.Id)
-                    .HasPrecision(8)
+                    .ValueGeneratedNever()
                     .HasColumnName("id");
 
                 entity.Property(e => e.Abbreviation)
                     .HasMaxLength(15)
                     .HasColumnName("abbreviation");
 
-                entity.Property(e => e.BasicColorId)
-                    .HasPrecision(8)
-                    .HasColumnName("basic_color_id");
+                entity.Property(e => e.BasicColorId).HasColumnName("basic_color_id");
 
                 entity.Property(e => e.Description)
                     .HasMaxLength(30)
@@ -443,16 +347,14 @@ namespace FDB.Apollo.IPT.Service.Models.EF
                 entity.ToTable("ipt_color_w");
 
                 entity.Property(e => e.Id)
-                    .HasPrecision(8)
+                    .ValueGeneratedNever()
                     .HasColumnName("id");
 
                 entity.Property(e => e.Abbreviation)
                     .HasMaxLength(15)
                     .HasColumnName("abbreviation");
 
-                entity.Property(e => e.BasicColorId)
-                    .HasPrecision(8)
-                    .HasColumnName("basic_color_id");
+                entity.Property(e => e.BasicColorId).HasColumnName("basic_color_id");
 
                 entity.Property(e => e.Description)
                     .HasMaxLength(30)

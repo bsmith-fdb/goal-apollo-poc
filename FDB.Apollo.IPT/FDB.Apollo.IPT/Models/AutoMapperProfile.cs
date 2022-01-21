@@ -8,7 +8,7 @@ namespace FDB.Apollo.IPT.Service.Models
         public AutoMapperProfile()
         {
             CreateMap<bool, char>().ConvertUsing(source => source ? '1' : '0');
-            CreateMap<char, bool>().ConvertUsing(source => source == '1' ? true : false);
+            CreateMap<char, bool>().ConvertUsing(source => source == '1');
 
             CreateMap<IAudit, PublishAudit>()
                 .ForMember(dest => dest.ID, opt => opt.MapFrom(src => src.Id))

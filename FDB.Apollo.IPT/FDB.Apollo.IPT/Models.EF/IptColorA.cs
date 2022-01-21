@@ -5,16 +5,16 @@ namespace FDB.Apollo.IPT.Service.Models.EF
 {
     public partial class IptColorA : IAudit
     {
-        public decimal Id { get; set; }
-        public decimal WipStatusId { get; set; }
+        public long Id { get; set; }
+        public long WipStatusId { get; set; }
         public DateTime AudCreateDate { get; set; }
-        public decimal AudCreateUserId { get; set; }
+        public long AudCreateUserId { get; set; }
         public DateTime? AudCheckoutDate { get; set; }
-        public decimal? AudCheckoutUserId { get; set; }
+        public long? AudCheckoutUserId { get; set; }
         public DateTime AudLastModifyDate { get; set; }
-        public decimal AudLastModifyUserId { get; set; }
+        public long AudLastModifyUserId { get; set; }
         public DateTime? AudPublishDate { get; set; }
-        public decimal? AudPublishUserId { get; set; }
+        public long? AudPublishUserId { get; set; }
         public DateTime? FirstDeliveredDate { get; set; }
         public DateTime? LastDeliveredDate { get; set; }
         public DateTime? PrevDeliveredDate { get; set; }

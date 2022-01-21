@@ -122,10 +122,10 @@ namespace FDB.Apollo.IPT.Service.Controllers
         // PUT: api/Colors/5
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPut("{id}", Name = nameof(UpdateColor))]
-        public async Task<IActionResult> UpdateColor(decimal id, Color color)
+        public async Task<IActionResult> UpdateColor(long id, Color color)
         {
             var dtNow = DateTime.UtcNow;
-            decimal changeUserID = 99999;
+            long changeUserID = 99999;
             char changeType = 'C';
 
             if (id != color.ID)
@@ -149,7 +149,7 @@ namespace FDB.Apollo.IPT.Service.Controllers
 
                 _context.Entry(audRec).State = EntityState.Modified;
 
-                decimal conceptRevNbr = await GetMaxConceptRevNbr(id) + 1;
+                var conceptRevNbr = await GetMaxConceptRevNbr(id) + 1;
 
                 var histRec = new IptColorH
                 {
@@ -162,7 +162,7 @@ namespace FDB.Apollo.IPT.Service.Controllers
 
                 _context.Entry(histRec).State = EntityState.Added;
 
-                decimal revNbr = await GetMaxRevNbr(id) + 1;
+                var revNbr = await GetMaxRevNbr(id) + 1;
 
                 var changeRec = _mapper.Map<IptColorC>(color);
                 changeRec.ChangeType = changeType;
@@ -185,13 +185,64 @@ namespace FDB.Apollo.IPT.Service.Controllers
 
         // POST: api/Colors
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
-        [HttpPost]
-        public async Task<ActionResult<Color>> PostColor(Color color)
+        [HttpPost(Name = nameof(CreateColor))]
+        public async Task<ActionResult<Color>> CreateColor(Color color)
         {
-            _context.Color.Add(color);
-            await _context.SaveChangesAsync();
+            var dtNow = DateTime.UtcNow;
+            long changeUserID = 99999;
+            char changeType = 'C';
+            int conceptRevNbr = 1;
+            int revNbr = 1;
+            long id;
 
-            return CreatedAtAction("GetColor", new { id = color.ID }, color);
+            using (var transaction = await _context.Database.BeginTransactionAsync())
+            {
+                var audRec = new IptColorA
+                {
+                    WipStatusId = (long)FDBWipStatus.CheckedOut,
+                    AudCreateDate = dtNow,
+                    AudCreateUserId = changeUserID,
+                    AudCheckoutDate = dtNow,
+                    AudCheckoutUserId = changeUserID,
+                    AudLastModifyDate = dtNow,
+                    AudLastModifyUserId = changeUserID,
+                };
+
+                _context.Entry(audRec).State = EntityState.Added;
+
+                await _context.SaveChangesAsync();
+
+                id = audRec.Id;
+                color.ID = id;
+
+                var histRec = new IptColorH
+                {
+                    Id = id,
+                    RevNbr = conceptRevNbr,
+                    ChangeUserId = changeUserID,
+                    ChangeTimestamp = dtNow,
+                    ChangeType = changeType
+                };
+
+                _context.Entry(histRec).State = EntityState.Added;
+
+                var changeRec = _mapper.Map<IptColorC>(color);
+                changeRec.ChangeType = changeType;
+                changeRec.ChangeTimestamp = dtNow;
+                changeRec.RevNbr = revNbr;
+                changeRec.ChangeUserId = changeUserID;
+                changeRec.ConceptRevNbr = conceptRevNbr;
+                _context.Entry(changeRec).State = EntityState.Added;
+
+                var wipRec = _mapper.Map<IptColorW>(color);
+                _context.Entry(wipRec).State = EntityState.Added;
+
+                await _context.SaveChangesAsync();
+
+                await transaction.CommitAsync();
+            }
+
+            return CreatedAtAction(nameof(GetColor), new { id = color.ID }, color);
         }
 
         // DELETE: api/Colors/5
@@ -210,12 +261,7 @@ namespace FDB.Apollo.IPT.Service.Controllers
             return NoContent();
         }
 
-        //private async Task<bool> ColorExists(int id)
-        //{
-        //    return await _context.IptColorAs.AnyAsync(e => e.Id == id);
-        //}
-
-        private async Task<decimal> GetMaxRevNbr(decimal id)
+        private async Task<int> GetMaxRevNbr(decimal id)
         {
             return await _context.IptColorCs
                 .Where(c => c.Id == id)
@@ -224,7 +270,7 @@ namespace FDB.Apollo.IPT.Service.Controllers
                 .FirstOrDefaultAsync();
         }
 
-        private async Task<decimal> GetMaxConceptRevNbr(decimal id)
+        private async Task<int> GetMaxConceptRevNbr(decimal id)
         {
             return await _context.IptColorHs
                 .Where(h => h.Id == id)

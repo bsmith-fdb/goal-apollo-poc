@@ -5,7 +5,7 @@
 -- DROP TABLE public.ipt_basic_color_w;
 
 CREATE TABLE public.ipt_basic_color_w (
-	id numeric(8) NOT NULL,
+	id bigint NOT NULL,
 	description varchar(30) NOT NULL,
 	abbreviation varchar(7) NOT NULL,
 	short_abbreviation varchar(4) NOT NULL,

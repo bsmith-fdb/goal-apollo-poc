@@ -5,16 +5,16 @@
 -- DROP TABLE public.ipt_color_a;
 
 CREATE TABLE public.ipt_color_a (
-	id numeric(8) NOT NULL,
-	wip_status_id numeric(8) NOT NULL,
+	id bigint NOT NULL,
+	wip_status_id bigint NOT NULL,
 	aud_create_date timestamptz NOT NULL,
-	aud_create_user_id numeric(8) NOT NULL,
+	aud_create_user_id bigint NOT NULL,
 	aud_checkout_date timestamptz NULL,
-	aud_checkout_user_id numeric(8) NULL,
+	aud_checkout_user_id bigint NULL,
 	aud_last_modify_date timestamptz NOT NULL,
-	aud_last_modify_user_id numeric(8) NOT NULL,
+	aud_last_modify_user_id bigint NOT NULL,
 	aud_publish_date timestamptz NULL,
-	aud_publish_user_id numeric(8) NULL,
+	aud_publish_user_id bigint NULL,
 	first_delivered_date timestamptz NULL,
 	last_delivered_date timestamptz NULL,
 	prev_delivered_date timestamptz NULL,
