@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata;
+using FDB.Apollo.IPT.Service.Models;
 
 namespace FDB.Apollo.IPT.Service.Models.EF
 {
@@ -478,5 +479,7 @@ namespace FDB.Apollo.IPT.Service.Models.EF
         }
 
         partial void OnModelCreatingPartial(ModelBuilder modelBuilder);
+
+        public DbSet<FDB.Apollo.IPT.Service.Models.Color> Color { get; set; } = null!;
     }
 }

@@ -1,12 +1,16 @@
-﻿namespace FDB.Apollo.IPT.Service.Models
+﻿using System.ComponentModel.DataAnnotations;
+using AutoMapper;
+using AutoMapper.Configuration.Annotations;
+using FDB.Apollo.IPT.Service.Models.EF;
+
+namespace FDB.Apollo.IPT.Service.Models
 {
     public class PublishAudit
     {
         public int ID { get; set; }
         public int WIPStatusID { get; set; }
-        public string WIPStatus { get; set; } = string.Empty;
+        public string WIPStatus => ((FDBWipStatus)WIPStatusID).ToString();
         public bool SourceWIP { get; set; }
-        public bool IsDelivered => FirstDeliveredDate != DateTime.MinValue;
         public DateTime CreateDate { get; set; }
         public int CreateUserID { get; set; }
         public string CreateUserName { get; set; } = string.Empty;
