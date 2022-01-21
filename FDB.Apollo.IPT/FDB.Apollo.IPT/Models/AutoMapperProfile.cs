@@ -29,11 +29,13 @@ namespace FDB.Apollo.IPT.Service.Models
             CreateMap<Color, IptColorW>().ReverseMap();
             CreateMap<Color, IptColorP>().ReverseMap();
             CreateMap<Color, IptColorC>().ReverseMap();
+            CreateMap<IptColorW, IptColorC>();
             CreateMap<PublishAudit, IptColorA>().ReverseMap();
 
             CreateMap<BasicColor, IptBasicColorW>().ReverseMap();
             CreateMap<BasicColor, IptBasicColorP>().ReverseMap();
             CreateMap<BasicColor, IptBasicColorC>().ReverseMap();
+            CreateMap<IptBasicColorW, IptBasicColorC>();
             CreateMap<PublishAudit, IptBasicColorA>().ReverseMap();
         }
     }
