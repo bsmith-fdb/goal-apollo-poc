@@ -4,6 +4,7 @@ using FDB.Apollo.IPT.Service.Models;
 using FDB.Apollo.IPT.Service.Models.EF;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using System.Net;
 
 namespace FDB.Apollo.IPT.Service.Controllers
 {
@@ -11,12 +12,12 @@ namespace FDB.Apollo.IPT.Service.Controllers
     [ApiController]
     [Produces("application/json")]
     [Consumes("application/json")]
-    public class ColorController : ControllerBase
+    public class ColorsController : ControllerBase
     {
         private readonly postgresContext _context;
         private readonly IMapper _mapper;
 
-        public ColorController(postgresContext context, IMapper mapper)
+        public ColorsController(postgresContext context, IMapper mapper)
         {
             _context = context;
             _mapper = mapper;
@@ -126,7 +127,7 @@ namespace FDB.Apollo.IPT.Service.Controllers
         {
             var dtNow = DateTime.UtcNow;
             long changeUserID = 99999;
-            char changeType = 'C';
+            char changeType = ChangeType.Change.GetChar();
 
             if (id != color.ID)
             {
@@ -142,8 +143,14 @@ namespace FDB.Apollo.IPT.Service.Controllers
                     return NotFound();
                 }
 
-                audRec.AudCheckoutDate = dtNow;
-                audRec.AudCheckoutUserId = changeUserID;
+                switch ((FDBWipStatus)audRec.WipStatusId)
+                {
+                    case FDBWipStatus.Protected:
+                        return base.StatusCode((int)HttpStatusCode.NotModified);
+                    default:
+                        break;
+                }
+
                 audRec.AudLastModifyDate = dtNow;
                 audRec.AudLastModifyUserId = changeUserID;
 
@@ -183,6 +190,152 @@ namespace FDB.Apollo.IPT.Service.Controllers
             return NoContent();
         }
 
+        // PUT: api/Colors/Publish/5
+        [HttpPut("Publish/{id}", Name = nameof(PublishColor))]
+        public async Task<IActionResult> PublishColor(long id)
+        {
+            var dtNow = DateTime.UtcNow;
+            long changeUserID = 99999;
+            char changeType = ChangeType.Publish.GetChar();
+
+            using (var transaction = await _context.Database.BeginTransactionAsync())
+            {
+                var audRec = await _context.IptColorAs.FindAsync(id);
+
+                if (audRec == null)
+                {
+                    return NotFound();
+                }
+
+                switch ((FDBWipStatus)audRec.WipStatusId)
+                {
+                    case FDBWipStatus.Published:
+                    case FDBWipStatus.Protected:
+                        return base.StatusCode((int)HttpStatusCode.NotModified);
+                    default:
+                        break;
+                }
+
+                audRec.WipStatusId = (long)FDBWipStatus.Published;
+                audRec.AudCheckoutDate = null;
+                audRec.AudCheckoutUserId = null;
+                audRec.AudLastModifyDate = dtNow;
+                audRec.AudLastModifyUserId = changeUserID;
+                audRec.AudPublishDate = dtNow;
+                audRec.AudPublishUserId = changeUserID;
+
+                _context.Entry(audRec).State = EntityState.Modified;
+                
+                var wipRec = await _context.IptColorWs.FindAsync(id);
+
+                var pubRec = await _context.IptColorPs.FindAsync(id);
+
+                if (pubRec == null)
+                {
+                    pubRec = _mapper.Map<IptColorP>(wipRec);
+                    _context.Entry(pubRec).State = EntityState.Added;
+                }
+                else
+                {
+                    _mapper.Map(wipRec, pubRec);
+                    _context.Entry(pubRec).State = EntityState.Modified;
+                }
+
+                var conceptRevNbr = await GetMaxConceptRevNbr(id) + 1;
+
+                var histRec = new IptColorH
+                {
+                    Id = id,
+                    RevNbr = conceptRevNbr,
+                    ChangeUserId = changeUserID,
+                    ChangeTimestamp = dtNow,
+                    ChangeType = changeType
+                };
+
+                _context.Entry(histRec).State = EntityState.Added;
+
+                await _context.SaveChangesAsync();
+
+                await transaction.CommitAsync();
+            }
+
+            return NoContent();
+        }
+
+        // PUT: api/Colors/Revert/5
+        [HttpPut("Revert/{id}", Name = nameof(RevertColor))]
+        public async Task<IActionResult> RevertColor(long id)
+        {
+            var dtNow = DateTime.UtcNow;
+            long changeUserID = 99999;
+            char changeType = ChangeType.Revert.GetChar();
+
+            using (var transaction = await _context.Database.BeginTransactionAsync())
+            {
+                var audRec = await _context.IptColorAs.FindAsync(id);
+
+                if (audRec == null)
+                {
+                    return NotFound();
+                }
+
+                if (audRec.AudPublishDate == null)
+                {
+                    return base.StatusCode((int)HttpStatusCode.NotModified);
+                }
+
+                audRec.WipStatusId = (long)FDBWipStatus.Published;
+                audRec.AudCheckoutDate = null;
+                audRec.AudCheckoutUserId = null;
+                audRec.AudLastModifyDate = dtNow;
+                audRec.AudLastModifyUserId = changeUserID;
+
+                _context.Entry(audRec).State = EntityState.Modified;
+
+                var wipRec = await _context.IptColorWs.FindAsync(id);
+
+                var pubRec = await _context.IptColorPs.FindAsync(id);
+
+                if (pubRec == null)
+                {
+                    return base.StatusCode((int)HttpStatusCode.NotModified);
+                }
+
+                _mapper.Map(pubRec, wipRec);
+                _context.Entry(wipRec).State = EntityState.Modified;
+
+                var conceptRevNbr = await GetMaxConceptRevNbr(id) + 1;
+
+                var histRec = new IptColorH
+                {
+                    Id = id,
+                    RevNbr = conceptRevNbr,
+                    ChangeUserId = changeUserID,
+                    ChangeTimestamp = dtNow,
+                    ChangeType = changeType
+                };
+
+                _context.Entry(histRec).State = EntityState.Added;
+
+                var revNbr = await GetMaxRevNbr(id) + 1;
+
+                var changeRec = _mapper.Map<IptColorC>(wipRec);
+                changeRec.ChangeType = changeType;
+                changeRec.ChangeTimestamp = dtNow;
+                changeRec.RevNbr = revNbr;
+                changeRec.ChangeUserId = changeUserID;
+                changeRec.ConceptRevNbr = conceptRevNbr;
+
+                _context.Entry(changeRec).State = EntityState.Added;
+
+                await _context.SaveChangesAsync();
+
+                await transaction.CommitAsync();
+            }
+
+            return NoContent();
+        }
+
         // POST: api/Colors
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPost(Name = nameof(CreateColor))]
@@ -190,7 +343,7 @@ namespace FDB.Apollo.IPT.Service.Controllers
         {
             var dtNow = DateTime.UtcNow;
             long changeUserID = 99999;
-            char changeType = 'C';
+            char changeType = ChangeType.Add.GetChar();
             int conceptRevNbr = 1;
             int revNbr = 1;
 
@@ -240,7 +393,7 @@ namespace FDB.Apollo.IPT.Service.Controllers
                 await transaction.CommitAsync();
             }
 
-            return CreatedAtAction(nameof(GetColor), new { id = color.ID }, color);
+            return CreatedAtAction(nameof(GetColor), new { locale = DbContextLocale.Working, id = color.ID }, color);
         }
 
         // DELETE: api/Colors/5
@@ -249,7 +402,7 @@ namespace FDB.Apollo.IPT.Service.Controllers
         {
             var dtNow = DateTime.UtcNow;
             long changeUserID = 99999;
-            char changeType = 'D';
+            char changeType = ChangeType.Delete.GetChar();
 
             using (var transaction = await _context.Database.BeginTransactionAsync())
             {
@@ -258,6 +411,14 @@ namespace FDB.Apollo.IPT.Service.Controllers
                 if (audRec == null)
                 {
                     return NotFound();
+                }
+
+                switch ((FDBWipStatus)audRec.WipStatusId)
+                {
+                    case FDBWipStatus.Protected:
+                        return base.StatusCode((int)HttpStatusCode.NotModified);
+                    default:
+                        break;
                 }
 
                 var conceptRevNbr = await GetMaxConceptRevNbr(id) + 1;
@@ -304,7 +465,7 @@ namespace FDB.Apollo.IPT.Service.Controllers
             return NoContent();
         }
 
-        private async Task<int> GetMaxRevNbr(decimal id)
+        private async Task<int> GetMaxRevNbr(long id)
         {
             return await _context.IptColorCs
                 .Where(c => c.Id == id)
@@ -313,7 +474,7 @@ namespace FDB.Apollo.IPT.Service.Controllers
                 .FirstOrDefaultAsync();
         }
 
-        private async Task<int> GetMaxConceptRevNbr(decimal id)
+        private async Task<int> GetMaxConceptRevNbr(long id)
         {
             return await _context.IptColorHs
                 .Where(h => h.Id == id)

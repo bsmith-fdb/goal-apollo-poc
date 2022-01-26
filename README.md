@@ -15,7 +15,8 @@
 `dotnet ef dbcontext scaffold Name=ConnectionStrings:postgres Npgsql.EntityFrameworkCore.PostgreSQL --output-dir .\Models.EF\`
 
 # Migration Challenges
-* Implementing change history logic
-  * Updating _C, _A, _H tables
+* Implementing change history logic (updating _C, _A, _H tables)
   * Should we keep the logic in stored procedures?
-  * If the logic lives in C# code (assuming EntityFramework is used), how can we script the loading of data (like we do with DML DCRs)?
+  * If the logic lives in C# code (assuming EntityFramework is used)
+    * Will this hurt performance? (lots of DB calls)
+    * How can we script the loading of data (like we do with DML DCRs)?

@@ -1,5 +1,41 @@
 ﻿namespace FDB.Apollo.IPT.Service.Models
 {
+    public static class ExtensionMethods
+    {
+        public static string DisplayText(this FDBWipStatus status)
+        {
+            switch (status)
+            {
+                case FDBWipStatus.Published:
+                    return "Published";
+                case FDBWipStatus.Submitted:
+                    return "Submitted";
+                case FDBWipStatus.CheckedOut:
+                    return "Checked Out";
+                default:
+                    return "Unknown";
+            }
+        }
+
+        public static char GetChar(this ChangeType changeType)
+        {
+            switch (changeType)
+            {
+                case ChangeType.Add:
+                    return 'A';
+                case ChangeType.Change:
+                    return 'C';
+                case ChangeType.Delete:
+                    return 'D';
+                case ChangeType.Publish:
+                    return 'P';
+                case ChangeType.Revert:
+                    return 'R';
+                default:
+                    return '\0';
+            }
+        }
+    }
     public enum DbContextLocale : short
     {
         None = 0,
@@ -31,15 +67,10 @@
 
     public enum ChangeType : short
     {
-        //Add
-        A = 1,
-        //Change
-        C = 2,
-        //Delete
-        D = 3,
-        //Publish
-        P = 4,
-        //Revert
-        R = 5
+        Add = 1,
+        Change = 2,
+        Delete = 3,
+        Publish = 4,
+        Revert = 5
     }
 }
