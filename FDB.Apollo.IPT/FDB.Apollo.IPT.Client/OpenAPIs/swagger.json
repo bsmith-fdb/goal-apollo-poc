@@ -1,0 +1,368 @@
+{
+  "openapi": "3.0.1",
+  "info": {
+    "title": "FDB.Apollo.IPT.Service",
+    "version": "1.0"
+  },
+  "paths": {
+    "/api/Colors": {
+      "get": {
+        "tags": [
+          "Colors"
+        ],
+        "operationId": "GetColors",
+        "parameters": [
+          {
+            "name": "locale",
+            "in": "query",
+            "schema": {
+              "$ref": "#/components/schemas/DbContextLocale"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/Color"
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
+      "post": {
+        "tags": [
+          "Colors"
+        ],
+        "operationId": "CreateColor",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/Color"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Color"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/Colors/{id}": {
+      "get": {
+        "tags": [
+          "Colors"
+        ],
+        "operationId": "GetColor",
+        "parameters": [
+          {
+            "name": "locale",
+            "in": "query",
+            "schema": {
+              "$ref": "#/components/schemas/DbContextLocale"
+            }
+          },
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Color"
+                }
+              }
+            }
+          }
+        }
+      },
+      "put": {
+        "tags": [
+          "Colors"
+        ],
+        "operationId": "UpdateColor",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int64"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/Color"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Success"
+          }
+        }
+      },
+      "delete": {
+        "tags": [
+          "Colors"
+        ],
+        "operationId": "DeleteColor",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int64"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success"
+          }
+        }
+      }
+    },
+    "/api/Colors/Publish/{id}": {
+      "put": {
+        "tags": [
+          "Colors"
+        ],
+        "operationId": "PublishColor",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int64"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success"
+          }
+        }
+      }
+    },
+    "/api/Colors/Revert/{id}": {
+      "put": {
+        "tags": [
+          "Colors"
+        ],
+        "operationId": "RevertColor",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int64"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success"
+          }
+        }
+      }
+    }
+  },
+  "components": {
+    "schemas": {
+      "BasicColor": {
+        "type": "object",
+        "properties": {
+          "audit": {
+            "$ref": "#/components/schemas/PublishAudit"
+          },
+          "id": {
+            "type": "integer",
+            "format": "int64"
+          },
+          "description": {
+            "type": "string",
+            "nullable": true
+          },
+          "abbreviation": {
+            "type": "string",
+            "nullable": true
+          },
+          "shortAbbreviation": {
+            "type": "string",
+            "nullable": true
+          },
+          "doNotUseInd": {
+            "type": "boolean"
+          }
+        },
+        "additionalProperties": false
+      },
+      "Color": {
+        "type": "object",
+        "properties": {
+          "audit": {
+            "$ref": "#/components/schemas/PublishAudit"
+          },
+          "id": {
+            "type": "integer",
+            "format": "int64"
+          },
+          "description": {
+            "type": "string",
+            "nullable": true
+          },
+          "basicColorID": {
+            "type": "integer",
+            "format": "int64"
+          },
+          "abbreviation": {
+            "type": "string",
+            "nullable": true
+          },
+          "doNotUseInd": {
+            "type": "boolean"
+          },
+          "basicColor": {
+            "$ref": "#/components/schemas/BasicColor"
+          }
+        },
+        "additionalProperties": false
+      },
+      "DbContextLocale": {
+        "enum": [
+          "None",
+          "Working",
+          "Published"
+        ],
+        "type": "string"
+      },
+      "PublishAudit": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "integer",
+            "format": "int64"
+          },
+          "wipStatusID": {
+            "type": "integer",
+            "format": "int64"
+          },
+          "wipStatus": {
+            "type": "string",
+            "nullable": true,
+            "readOnly": true
+          },
+          "sourceWIP": {
+            "type": "boolean"
+          },
+          "createDate": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "createUserID": {
+            "type": "integer",
+            "format": "int64"
+          },
+          "createUserName": {
+            "type": "string",
+            "nullable": true
+          },
+          "checkoutDate": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "checkoutUserID": {
+            "type": "integer",
+            "format": "int64"
+          },
+          "checkoutUserName": {
+            "type": "string",
+            "nullable": true
+          },
+          "lastModifyDate": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "lastModifyUserID": {
+            "type": "integer",
+            "format": "int64"
+          },
+          "lastModifyUserName": {
+            "type": "string",
+            "nullable": true
+          },
+          "publishedDate": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "publishedUserID": {
+            "type": "integer",
+            "format": "int64"
+          },
+          "publishedUserName": {
+            "type": "string",
+            "nullable": true
+          },
+          "plannedPublishDate": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "plannedPublishUserID": {
+            "type": "integer",
+            "format": "int64"
+          },
+          "plannedPublishUserName": {
+            "type": "string",
+            "nullable": true
+          },
+          "firstDeliveredDate": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "lastDeliveredDate": {
+            "type": "string",
+            "format": "date-time"
+          }
+        },
+        "additionalProperties": false
+      }
+    }
+  }
+}

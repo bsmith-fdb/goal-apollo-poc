@@ -1,4 +1,6 @@
-﻿namespace FDB.Apollo.IPT.Service.Models
+﻿using System.Text.Json.Serialization;
+
+namespace FDB.Apollo.IPT.Service.Models
 {
     public static class ExtensionMethods
     {
@@ -38,6 +40,8 @@
             }
         }
     }
+
+    [JsonConverter(typeof(JsonStringEnumConverter))]
     public enum DbContextLocale : short
     {
         None = 0,
