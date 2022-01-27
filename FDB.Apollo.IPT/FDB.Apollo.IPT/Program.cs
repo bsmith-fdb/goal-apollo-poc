@@ -10,7 +10,16 @@ builder.Services.AddControllers();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
-builder.Services.AddDbContext<postgresContext>(opt => opt.UseNpgsql(builder.Configuration.GetConnectionString("postgres")));
+
+string connString = builder.Configuration.GetConnectionString("postgres");
+
+if (string.IsNullOrEmpty(connString))
+{
+    connString = Environment.GetEnvironmentVariable("POSTGRESQLCONNSTR_postgres") ?? string.Empty;
+}
+
+builder.Services.AddDbContext<postgresContext>(opt => opt.UseNpgsql(connString));
+
 builder.Services.AddAutoMapper(typeof(AutoMapperProfile));
 
 var app = builder.Build();
