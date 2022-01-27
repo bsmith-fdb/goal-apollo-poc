@@ -1,6 +1,6 @@
-using Microsoft.EntityFrameworkCore;
-using FDB.Apollo.IPT.Service.Models.EF;
 using FDB.Apollo.IPT.Service.Models;
+using FDB.Apollo.IPT.Service.Models.EF;
+using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -16,7 +16,7 @@ builder.Services.AddAutoMapper(typeof(AutoMapperProfile));
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
-if (app.Environment.IsDevelopment())
+if (app.Environment.IsDevelopment() || app.Environment.IsStaging() || app.Environment.IsProduction())
 {
     app.UseSwagger();
     app.UseSwaggerUI();

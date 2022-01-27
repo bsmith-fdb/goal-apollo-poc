@@ -151,12 +151,15 @@ namespace FDB.Apollo.IPT.Service.Controllers
                         break;
                 }
 
+                audRec.WipStatusId = (long)FDBWipStatus.CheckedOut;
+                audRec.AudCheckoutDate = dtNow;
+                audRec.AudCheckoutUserId = changeUserID;
                 audRec.AudLastModifyDate = dtNow;
                 audRec.AudLastModifyUserId = changeUserID;
 
                 _context.Entry(audRec).State = EntityState.Modified;
 
-                var conceptRevNbr = await GetMaxConceptRevNbr(id) + 1;
+                var conceptRevNbr = await GetMaxConceptRevNbrAsync(id) + 1;
 
                 var histRec = new IptColorH
                 {
@@ -169,7 +172,7 @@ namespace FDB.Apollo.IPT.Service.Controllers
 
                 _context.Entry(histRec).State = EntityState.Added;
 
-                var revNbr = await GetMaxRevNbr(id) + 1;
+                var revNbr = await GetMaxRevNbrAsync(id) + 1;
 
                 var changeRec = _mapper.Map<IptColorC>(color);
                 changeRec.ChangeType = changeType;
@@ -219,8 +222,6 @@ namespace FDB.Apollo.IPT.Service.Controllers
                 audRec.WipStatusId = (long)FDBWipStatus.Published;
                 audRec.AudCheckoutDate = null;
                 audRec.AudCheckoutUserId = null;
-                audRec.AudLastModifyDate = dtNow;
-                audRec.AudLastModifyUserId = changeUserID;
                 audRec.AudPublishDate = dtNow;
                 audRec.AudPublishUserId = changeUserID;
 
@@ -241,7 +242,7 @@ namespace FDB.Apollo.IPT.Service.Controllers
                     _context.Entry(pubRec).State = EntityState.Modified;
                 }
 
-                var conceptRevNbr = await GetMaxConceptRevNbr(id) + 1;
+                var conceptRevNbr = await GetMaxConceptRevNbrAsync(id) + 1;
 
                 var histRec = new IptColorH
                 {
@@ -304,7 +305,7 @@ namespace FDB.Apollo.IPT.Service.Controllers
                 _mapper.Map(pubRec, wipRec);
                 _context.Entry(wipRec).State = EntityState.Modified;
 
-                var conceptRevNbr = await GetMaxConceptRevNbr(id) + 1;
+                var conceptRevNbr = await GetMaxConceptRevNbrAsync(id) + 1;
 
                 var histRec = new IptColorH
                 {
@@ -317,7 +318,7 @@ namespace FDB.Apollo.IPT.Service.Controllers
 
                 _context.Entry(histRec).State = EntityState.Added;
 
-                var revNbr = await GetMaxRevNbr(id) + 1;
+                var revNbr = await GetMaxRevNbrAsync(id) + 1;
 
                 var changeRec = _mapper.Map<IptColorC>(wipRec);
                 changeRec.ChangeType = changeType;
@@ -421,7 +422,7 @@ namespace FDB.Apollo.IPT.Service.Controllers
                         break;
                 }
 
-                var conceptRevNbr = await GetMaxConceptRevNbr(id) + 1;
+                var conceptRevNbr = await GetMaxConceptRevNbrAsync(id) + 1;
 
                 var histRec = new IptColorH
                 {
@@ -436,7 +437,7 @@ namespace FDB.Apollo.IPT.Service.Controllers
 
                 var wipRec = await _context.IptColorWs.FindAsync(id);
 
-                var revNbr = await GetMaxRevNbr(id) + 1;
+                var revNbr = await GetMaxRevNbrAsync(id) + 1;
 
                 var changeRec = _mapper.Map<IptColorC>(wipRec);
                 changeRec.ChangeType = changeType;
@@ -465,7 +466,7 @@ namespace FDB.Apollo.IPT.Service.Controllers
             return NoContent();
         }
 
-        private async Task<int> GetMaxRevNbr(long id)
+        private async Task<int> GetMaxRevNbrAsync(long id)
         {
             return await _context.IptColorCs
                 .Where(c => c.Id == id)
@@ -474,7 +475,7 @@ namespace FDB.Apollo.IPT.Service.Controllers
                 .FirstOrDefaultAsync();
         }
 
-        private async Task<int> GetMaxConceptRevNbr(long id)
+        private async Task<int> GetMaxConceptRevNbrAsync(long id)
         {
             return await _context.IptColorHs
                 .Where(h => h.Id == id)

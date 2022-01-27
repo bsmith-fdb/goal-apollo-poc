@@ -12,8 +12,10 @@
                     return "Submitted";
                 case FDBWipStatus.CheckedOut:
                     return "Checked Out";
+                case FDBWipStatus.Protected:
+                    return "Protected";
                 default:
-                    return "Unknown";
+                    throw new ArgumentOutOfRangeException(nameof(status));
             }
         }
 
@@ -32,7 +34,7 @@
                 case ChangeType.Revert:
                     return 'R';
                 default:
-                    return '\0';
+                    throw new ArgumentOutOfRangeException(nameof(changeType));
             }
         }
     }
@@ -58,7 +60,6 @@
 
     public enum FDBWipStatus : short
     {
-        Unknown = 0,
         Published = 1,
         Submitted = 2,
         CheckedOut = 3,
