@@ -72,7 +72,7 @@ namespace FDB.Apollo.IPT.Service.Controllers
 
         // GET: api/Colors/5
         [HttpGet("{id}", Name = nameof(GetColor))]
-        public async Task<ActionResult<Color>> GetColor(DbContextLocale locale, int id)
+        public async Task<ActionResult<Color>> GetColor(DbContextLocale locale, long id)
         {
             IQueryable<dynamic> q;
             bool sourceWIP;
@@ -123,6 +123,10 @@ namespace FDB.Apollo.IPT.Service.Controllers
         // PUT: api/Colors/5
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPut("{id}", Name = nameof(UpdateColor))]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
+        [ProducesResponseType(StatusCodes.Status304NotModified)]
+        [ProducesResponseType(StatusCodes.Status204NoContent)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
         public async Task<IActionResult> UpdateColor(long id, Color color)
         {
             var dtNow = DateTime.UtcNow;
@@ -146,7 +150,7 @@ namespace FDB.Apollo.IPT.Service.Controllers
                 switch ((FDBWipStatus)audRec.WipStatusId)
                 {
                     case FDBWipStatus.Protected:
-                        return base.StatusCode((int)HttpStatusCode.NotModified);
+                        return base.StatusCode(StatusCodes.Status304NotModified);
                     default:
                         break;
                 }

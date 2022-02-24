@@ -5,9 +5,12 @@ VisualStudioVersion = 17.0.32002.185
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "FDB.Apollo.IPT.Service", "FDB.Apollo.IPT.Service\FDB.Apollo.IPT.Service.csproj", "{813DFB4A-1DC7-413F-8FA0-A10B914EB2CB}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FDB.Apollo.IPT.Client", "FDB.Apollo.IPT.Client\FDB.Apollo.IPT.Client.csproj", "{B61E2E03-F5E9-4CFA-926F-905C460A122D}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "FDB.Apollo.IPT.Client", "FDB.Apollo.IPT.Client\FDB.Apollo.IPT.Client.csproj", "{B61E2E03-F5E9-4CFA-926F-905C460A122D}"
+	ProjectSection(ProjectDependencies) = postProject
+		{813DFB4A-1DC7-413F-8FA0-A10B914EB2CB} = {813DFB4A-1DC7-413F-8FA0-A10B914EB2CB}
+	EndProjectSection
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FDB.Apollo.IPT.App", "FDB.Apollo.IPT.App\FDB.Apollo.IPT.App.csproj", "{362DA3A4-A86F-46F1-A899-7F05C8BA74B4}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "FDB.Apollo.IPT.App", "FDB.Apollo.IPT.App\FDB.Apollo.IPT.App.csproj", "{362DA3A4-A86F-46F1-A899-7F05C8BA74B4}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

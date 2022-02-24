@@ -381,5 +381,7 @@ namespace FDB.Apollo.IPT.Service.Models.EF
         }
 
         partial void OnModelCreatingPartial(ModelBuilder modelBuilder);
+
+        //public DbSet<FDB.Apollo.IPT.Service.Models.BasicColor> BasicColor { get; set; }
     }
 }

@@ -17,7 +17,7 @@ namespace FDB.Apollo.IPT.Service.Models
                 case FDBWipStatus.Protected:
                     return "Protected";
                 default:
-                    throw new ArgumentOutOfRangeException(nameof(status));
+                    return "Unknown";
             }
         }
 
