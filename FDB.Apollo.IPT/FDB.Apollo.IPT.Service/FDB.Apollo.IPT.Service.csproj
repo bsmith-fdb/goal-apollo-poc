@@ -24,7 +24,7 @@
     <PackageReference Include="Swashbuckle.AspNetCore" Version="6.2.3" />
   </ItemGroup>
 
-  <Target Name="PostBuild" AfterTargets="PostBuildEvent">
+  <Target Name="PostBuild" AfterTargets="PostBuildEvent" Condition="'$(BuildingInsideVisualStudio)' == 'true'">
     <Exec Command="swagger tofile --output $(ProjectDir)swagger.json $(OutDir)FDB.Apollo.IPT.Service.dll v1" />
   </Target>
 
