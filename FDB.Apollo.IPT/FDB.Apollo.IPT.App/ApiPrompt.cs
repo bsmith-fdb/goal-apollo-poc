@@ -32,7 +32,8 @@ namespace FDB.Apollo.IPT.App
         private void ApiPrompt_Load(object sender, EventArgs e)
         {
             lstSelect.Items.Clear();
-            lstSelect.Items.Add(Resources.ApiHostUrlAzure);
+            lstSelect.Items.Add(Resources.ApiHostUrlAzureProd);
+            lstSelect.Items.Add(Resources.ApiHostUrlAzureQM);
             lstSelect.Items.Add(Resources.ApiHostUrlLocalhost);
         }
     }

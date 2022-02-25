@@ -123,10 +123,7 @@ namespace FDB.Apollo.IPT.Service.Controllers
         // PUT: api/Colors/5
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPut("{id}", Name = nameof(UpdateColor))]
-        [ProducesResponseType(StatusCodes.Status404NotFound)]
-        [ProducesResponseType(StatusCodes.Status304NotModified)]
         [ProducesResponseType(StatusCodes.Status204NoContent)]
-        [ProducesResponseType(StatusCodes.Status400BadRequest)]
         public async Task<IActionResult> UpdateColor(long id, Color color)
         {
             var dtNow = DateTime.UtcNow;
@@ -344,7 +341,7 @@ namespace FDB.Apollo.IPT.Service.Controllers
         // POST: api/Colors
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPost(Name = nameof(CreateColor))]
-        public async Task<ActionResult<Color>> CreateColor(Color color)
+        public async Task<ActionResult<long>> CreateColor(Color color)
         {
             var dtNow = DateTime.UtcNow;
             long changeUserID = 99999;
@@ -398,7 +395,8 @@ namespace FDB.Apollo.IPT.Service.Controllers
                 await transaction.CommitAsync();
             }
 
-            return CreatedAtAction(nameof(GetColor), new { locale = DbContextLocale.Working, id = color.ID }, color);
+            return color.ID;
+            //return CreatedAtAction(nameof(GetColor), new { locale = DbContextLocale.Working, id = color.ID }, color);
         }
 
         // DELETE: api/Colors/5

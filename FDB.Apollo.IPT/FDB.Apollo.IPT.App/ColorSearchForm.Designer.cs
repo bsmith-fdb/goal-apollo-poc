@@ -34,8 +34,15 @@
             this.grdDataColAbbrv = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.grdDataColDoNotUse = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.grdDataColBasicColorID = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.grdDataColLastModifyDate = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.grdDataColLastModifyUser = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.grdDataColPublishDate = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.grdDataColPublishUser = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.grdDataColWipStatus = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.btnLoad = new System.Windows.Forms.Button();
             this.lblTotalRowCount = new System.Windows.Forms.Label();
+            this.rdoWIP = new System.Windows.Forms.RadioButton();
+            this.rdoPublished = new System.Windows.Forms.RadioButton();
             ((System.ComponentModel.ISupportInitialize)(this.grdData)).BeginInit();
             this.SuspendLayout();
             // 
@@ -53,7 +60,12 @@
             this.grdDataColDesc,
             this.grdDataColAbbrv,
             this.grdDataColDoNotUse,
-            this.grdDataColBasicColorID});
+            this.grdDataColBasicColorID,
+            this.grdDataColLastModifyDate,
+            this.grdDataColLastModifyUser,
+            this.grdDataColPublishDate,
+            this.grdDataColPublishUser,
+            this.grdDataColWipStatus});
             this.grdData.Location = new System.Drawing.Point(12, 41);
             this.grdData.MultiSelect = false;
             this.grdData.Name = "grdData";
@@ -61,7 +73,7 @@
             this.grdData.RowHeadersVisible = false;
             this.grdData.RowTemplate.Height = 25;
             this.grdData.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
-            this.grdData.Size = new System.Drawing.Size(776, 397);
+            this.grdData.Size = new System.Drawing.Size(1039, 390);
             this.grdData.TabIndex = 0;
             this.grdData.RowsAdded += new System.Windows.Forms.DataGridViewRowsAddedEventHandler(this.grdColor_RowsAdded);
             this.grdData.RowsRemoved += new System.Windows.Forms.DataGridViewRowsRemovedEventHandler(this.grdColor_RowsRemoved);
@@ -98,6 +110,36 @@
             this.grdDataColBasicColorID.Name = "grdDataColBasicColorID";
             this.grdDataColBasicColorID.ReadOnly = true;
             // 
+            // grdDataColLastModifyDate
+            // 
+            this.grdDataColLastModifyDate.HeaderText = "Last Modify Date";
+            this.grdDataColLastModifyDate.Name = "grdDataColLastModifyDate";
+            this.grdDataColLastModifyDate.ReadOnly = true;
+            // 
+            // grdDataColLastModifyUser
+            // 
+            this.grdDataColLastModifyUser.HeaderText = "Last Modify User";
+            this.grdDataColLastModifyUser.Name = "grdDataColLastModifyUser";
+            this.grdDataColLastModifyUser.ReadOnly = true;
+            // 
+            // grdDataColPublishDate
+            // 
+            this.grdDataColPublishDate.HeaderText = "Publish Date";
+            this.grdDataColPublishDate.Name = "grdDataColPublishDate";
+            this.grdDataColPublishDate.ReadOnly = true;
+            // 
+            // grdDataColPublishUser
+            // 
+            this.grdDataColPublishUser.HeaderText = "Publish User";
+            this.grdDataColPublishUser.Name = "grdDataColPublishUser";
+            this.grdDataColPublishUser.ReadOnly = true;
+            // 
+            // grdDataColWipStatus
+            // 
+            this.grdDataColWipStatus.HeaderText = "WIP Status";
+            this.grdDataColWipStatus.Name = "grdDataColWipStatus";
+            this.grdDataColWipStatus.ReadOnly = true;
+            // 
             // btnLoad
             // 
             this.btnLoad.Location = new System.Drawing.Point(12, 12);
@@ -117,15 +159,41 @@
             this.lblTotalRowCount.TabIndex = 2;
             this.lblTotalRowCount.Text = "Row Count: 0";
             // 
+            // rdoWIP
+            // 
+            this.rdoWIP.AutoSize = true;
+            this.rdoWIP.Checked = true;
+            this.rdoWIP.Location = new System.Drawing.Point(311, 14);
+            this.rdoWIP.Name = "rdoWIP";
+            this.rdoWIP.Size = new System.Drawing.Size(46, 19);
+            this.rdoWIP.TabIndex = 3;
+            this.rdoWIP.TabStop = true;
+            this.rdoWIP.Text = "WIP";
+            this.rdoWIP.UseVisualStyleBackColor = true;
+            this.rdoWIP.CheckedChanged += new System.EventHandler(this.rdoWIP_CheckedChanged);
+            // 
+            // rdoPublished
+            // 
+            this.rdoPublished.AutoSize = true;
+            this.rdoPublished.Location = new System.Drawing.Point(379, 14);
+            this.rdoPublished.Name = "rdoPublished";
+            this.rdoPublished.Size = new System.Drawing.Size(77, 19);
+            this.rdoPublished.TabIndex = 4;
+            this.rdoPublished.Text = "Published";
+            this.rdoPublished.UseVisualStyleBackColor = true;
+            // 
             // ColorSearchForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(800, 450);
+            this.ClientSize = new System.Drawing.Size(1063, 443);
+            this.Controls.Add(this.rdoPublished);
+            this.Controls.Add(this.rdoWIP);
             this.Controls.Add(this.lblTotalRowCount);
             this.Controls.Add(this.btnLoad);
             this.Controls.Add(this.grdData);
             this.Name = "ColorSearchForm";
+            this.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;
             this.Text = "IPT Color Search";
             this.Shown += new System.EventHandler(this.ColorSearchForm_Shown);
             ((System.ComponentModel.ISupportInitialize)(this.grdData)).EndInit();
@@ -144,5 +212,12 @@
         private DataGridViewTextBoxColumn grdDataColDoNotUse;
         private DataGridViewTextBoxColumn grdDataColBasicColorID;
         private Label lblTotalRowCount;
+        private DataGridViewTextBoxColumn grdDataColLastModifyDate;
+        private DataGridViewTextBoxColumn grdDataColLastModifyUser;
+        private DataGridViewTextBoxColumn grdDataColPublishDate;
+        private DataGridViewTextBoxColumn grdDataColPublishUser;
+        private DataGridViewTextBoxColumn grdDataColWipStatus;
+        private RadioButton rdoWIP;
+        private RadioButton rdoPublished;
     }
 }

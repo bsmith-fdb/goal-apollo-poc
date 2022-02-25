@@ -61,11 +61,20 @@ namespace FDB.Apollo.IPT.App {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to https://apollo-poc-webapp.azurewebsites.net.
+        /// </summary>
+        public static string ApiHostUrlAzureProd {
+            get {
+                return ResourceManager.GetString("ApiHostUrlAzureProd", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to https://apollo-poc-webapp-qm.azurewebsites.net.
         /// </summary>
-        public static string ApiHostUrlAzure {
+        public static string ApiHostUrlAzureQM {
             get {
-                return ResourceManager.GetString("ApiHostUrlAzure", resourceCulture);
+                return ResourceManager.GetString("ApiHostUrlAzureQM", resourceCulture);
             }
         }
         

@@ -29,13 +29,17 @@
         private void InitializeComponent()
         {
             this.mnuMain = new System.Windows.Forms.MenuStrip();
-            this.fileToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.mnuMainFil = new System.Windows.Forms.ToolStripMenuItem();
             this.mnuFileNew = new System.Windows.Forms.ToolStripMenuItem();
             this.mnuFileOpen = new System.Windows.Forms.ToolStripMenuItem();
             this.mnuFileEdit = new System.Windows.Forms.ToolStripMenuItem();
             this.mnuFileSave = new System.Windows.Forms.ToolStripMenuItem();
             this.mnuFileSubmit = new System.Windows.Forms.ToolStripMenuItem();
             this.mnuFilePublish = new System.Windows.Forms.ToolStripMenuItem();
+            this.mnuMainView = new System.Windows.Forms.ToolStripMenuItem();
+            this.mnuMainViewAudit = new System.Windows.Forms.ToolStripMenuItem();
+            this.mnuMainTools = new System.Windows.Forms.ToolStripMenuItem();
+            this.mnuMainToolsRefresh = new System.Windows.Forms.ToolStripMenuItem();
             this.lblID = new System.Windows.Forms.Label();
             this.lblColorDesc = new System.Windows.Forms.Label();
             this.lblAbbrv = new System.Windows.Forms.Label();
@@ -51,25 +55,27 @@
             // mnuMain
             // 
             this.mnuMain.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.fileToolStripMenuItem});
+            this.mnuMainFil,
+            this.mnuMainView,
+            this.mnuMainTools});
             this.mnuMain.Location = new System.Drawing.Point(0, 0);
             this.mnuMain.Name = "mnuMain";
             this.mnuMain.Size = new System.Drawing.Size(407, 24);
             this.mnuMain.TabIndex = 0;
             this.mnuMain.Text = "menuStrip1";
             // 
-            // fileToolStripMenuItem
+            // mnuMainFil
             // 
-            this.fileToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.mnuMainFil.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.mnuFileNew,
             this.mnuFileOpen,
             this.mnuFileEdit,
             this.mnuFileSave,
             this.mnuFileSubmit,
             this.mnuFilePublish});
-            this.fileToolStripMenuItem.Name = "fileToolStripMenuItem";
-            this.fileToolStripMenuItem.Size = new System.Drawing.Size(37, 20);
-            this.fileToolStripMenuItem.Text = "File";
+            this.mnuMainFil.Name = "mnuMainFil";
+            this.mnuMainFil.Size = new System.Drawing.Size(37, 20);
+            this.mnuMainFil.Text = "File";
             // 
             // mnuFileNew
             // 
@@ -77,6 +83,7 @@
             this.mnuFileNew.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.N)));
             this.mnuFileNew.Size = new System.Drawing.Size(180, 22);
             this.mnuFileNew.Text = "New";
+            this.mnuFileNew.Click += new System.EventHandler(this.mnuFileNew_Click);
             // 
             // mnuFileOpen
             // 
@@ -99,6 +106,7 @@
             this.mnuFileSave.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.S)));
             this.mnuFileSave.Size = new System.Drawing.Size(180, 22);
             this.mnuFileSave.Text = "Save";
+            this.mnuFileSave.Click += new System.EventHandler(this.mnuFileSave_Click);
             // 
             // mnuFileSubmit
             // 
@@ -113,6 +121,38 @@
             this.mnuFilePublish.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.Y)));
             this.mnuFilePublish.Size = new System.Drawing.Size(180, 22);
             this.mnuFilePublish.Text = "Publish";
+            // 
+            // mnuMainView
+            // 
+            this.mnuMainView.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.mnuMainViewAudit});
+            this.mnuMainView.Name = "mnuMainView";
+            this.mnuMainView.Size = new System.Drawing.Size(44, 20);
+            this.mnuMainView.Text = "View";
+            // 
+            // mnuMainViewAudit
+            // 
+            this.mnuMainViewAudit.Name = "mnuMainViewAudit";
+            this.mnuMainViewAudit.ShortcutKeys = System.Windows.Forms.Keys.F6;
+            this.mnuMainViewAudit.Size = new System.Drawing.Size(122, 22);
+            this.mnuMainViewAudit.Text = "Audit";
+            this.mnuMainViewAudit.Click += new System.EventHandler(this.mnuMainViewAudit_Click);
+            // 
+            // mnuMainTools
+            // 
+            this.mnuMainTools.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.mnuMainToolsRefresh});
+            this.mnuMainTools.Name = "mnuMainTools";
+            this.mnuMainTools.Size = new System.Drawing.Size(46, 20);
+            this.mnuMainTools.Text = "Tools";
+            // 
+            // mnuMainToolsRefresh
+            // 
+            this.mnuMainToolsRefresh.Name = "mnuMainToolsRefresh";
+            this.mnuMainToolsRefresh.ShortcutKeys = System.Windows.Forms.Keys.F5;
+            this.mnuMainToolsRefresh.Size = new System.Drawing.Size(132, 22);
+            this.mnuMainToolsRefresh.Text = "Refresh";
+            this.mnuMainToolsRefresh.Click += new System.EventHandler(this.mnuMainToolsRefresh_Click);
             // 
             // lblID
             // 
@@ -207,6 +247,7 @@
             this.MainMenuStrip = this.mnuMain;
             this.Name = "ColorEditForm";
             this.Text = "IPT Color";
+            this.Load += new System.EventHandler(this.ColorEditForm_Load);
             this.mnuMain.ResumeLayout(false);
             this.mnuMain.PerformLayout();
             this.ResumeLayout(false);
@@ -217,7 +258,7 @@
         #endregion
 
         private MenuStrip mnuMain;
-        private ToolStripMenuItem fileToolStripMenuItem;
+        private ToolStripMenuItem mnuMainFil;
         private ToolStripMenuItem mnuFileNew;
         private ToolStripMenuItem mnuFileOpen;
         private ToolStripMenuItem mnuFileEdit;
@@ -232,6 +273,10 @@
         private TextBox txtID;
         private TextBox txtDesc;
         private TextBox txtAbbrv;
+        private ToolStripMenuItem mnuMainTools;
+        private ToolStripMenuItem mnuMainToolsRefresh;
+        private ToolStripMenuItem mnuMainView;
+        private ToolStripMenuItem mnuMainViewAudit;
         private TextBox txtBasicColorID;
     }
 }
