@@ -156,6 +156,30 @@
         }
       }
     },
+    "/api/Colors/Submit/{id}": {
+      "put": {
+        "tags": [
+          "Colors"
+        ],
+        "operationId": "SubmitColor",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int64"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success"
+          }
+        }
+      }
+    },
     "/api/Colors/Publish/{id}": {
       "put": {
         "tags": [

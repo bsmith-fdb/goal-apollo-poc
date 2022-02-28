@@ -36,7 +36,7 @@ namespace FDB.Apollo.IPT.App
             InitializeComponent();
         }
 
-        private async Task LoadColor(bool sourceWIP, long id, bool promptToSave = true)
+        private async Task LoadItem(bool sourceWIP, long id, bool promptToSave = true)
         {
             if (promptToSave && !CheckUnsavedEdits())
             {
@@ -51,6 +51,7 @@ namespace FDB.Apollo.IPT.App
                 MyLoadedItem = await _iptClient.GetColorAsync(locale, id);
                 Debug.Print($"Loaded Color ID={id} in {sw.ElapsedMilliseconds} ms");
                 UpdateDisplay(MyLoadedItem);
+                UpdateDisplayAudit(sourceWIP, locale);
             }
             catch (Exception ex)
             {
@@ -59,6 +60,17 @@ namespace FDB.Apollo.IPT.App
             finally
             {
                 UIEnabled = true;
+            }
+        }
+
+        private void UpdateDisplayAudit(bool sourceWIP, DbContextLocale locale)
+        {
+            if (MyLoadedItem != null)
+            {
+                stsMainWipStatus.Text = $"WIP Status: {MyLoadedItem.Audit.WipStatus}";
+                stsMainSource.Text = $"Source: {locale}";
+                mnuMainViewWIP.Checked = sourceWIP;
+                mnuMainViewPublished.Checked = !sourceWIP;
             }
         }
 
@@ -102,11 +114,6 @@ namespace FDB.Apollo.IPT.App
             return color;
         }
 
-        private void ColorEditForm_Load(object sender, EventArgs e)
-        {
-            
-        }
-
         private async Task SaveItem()
         {
             try
@@ -130,7 +137,7 @@ namespace FDB.Apollo.IPT.App
 
                 Debug.Print($"SaveItem completed in {sw.ElapsedMilliseconds} ms");
 
-                await LoadColor(true, id, false);
+                await LoadItem(true, id, false);
             }
             catch (Exception ex)
             {
@@ -216,7 +223,7 @@ namespace FDB.Apollo.IPT.App
             var dr = _colorSearchForm.ShowDialog();
             if (dr == DialogResult.OK && _colorSearchForm.ReturnValue is Color color)
             {
-                await LoadColor(color.Audit.SourceWIP, color.Id);
+                await LoadItem(color.Audit.SourceWIP, color.Id);
             }
         }
 
@@ -229,7 +236,7 @@ namespace FDB.Apollo.IPT.App
         {
             if (MyLoadedItem != null)
             {
-                await LoadColor(MyLoadedItem.Audit.SourceWIP, MyLoadedItem.Id);
+                await LoadItem(MyLoadedItem.Audit.SourceWIP, MyLoadedItem.Id);
             }
         }
 
@@ -248,6 +255,66 @@ namespace FDB.Apollo.IPT.App
             }
         }
 
+        private async void mnuMainViewWIP_Click(object sender, EventArgs e)
+        {
+            var menuItem = (ToolStripMenuItem)sender;
+
+            if (MyLoadedItem != null)
+            {
+                bool sourceWIP = menuItem == mnuMainViewWIP;
+                await LoadItem(sourceWIP, MyLoadedItem.Id);
+            }
+        }
+
+        private async void mnuFileSubmit_Click(object sender, EventArgs e)
+        {
+            if (MyLoadedItem != null)
+            {
+                try
+                {
+                    await _iptClient.SubmitColorAsync(MyLoadedItem.Id);
+                    await LoadItem(true, MyLoadedItem.Id, false);
+                }
+                catch (Exception ex)
+                {
+                    MessageBox.Show($"An error occurred while attempting to submit the item.{Environment.NewLine}{Environment.NewLine}{ex.Message}", "Submit Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                }
+            }
+        }
+
+        private async void mnuFilePublish_Click(object sender, EventArgs e)
+        {
+            if (MyLoadedItem != null)
+            {
+                try
+                {
+                    await _iptClient.PublishColorAsync(MyLoadedItem.Id);
+                    await LoadItem(true, MyLoadedItem.Id, false);
+                }
+                catch (Exception ex)
+                {
+                    MessageBox.Show($"An error occurred while attempting to publish the item.{Environment.NewLine}{Environment.NewLine}{ex.Message}", "Publish Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                }
+            }
+        }
+
+        private async void mnuFileRevert_Click(object sender, EventArgs e)
+        {
+            if (MyLoadedItem != null)
+            {
+                try
+                {
+                    await _iptClient.RevertColorAsync(MyLoadedItem.Id);
+                    await LoadItem(true, MyLoadedItem.Id, false);
+                }
+                catch (Exception ex)
+                {
+                    MessageBox.Show($"An error occurred while attempting to revert the item.{Environment.NewLine}{Environment.NewLine}{ex.Message}", "Revert Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                }
+            }
+        }
+
         #endregion Main menu event handlers
+
     }
 }

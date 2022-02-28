@@ -194,6 +194,46 @@ namespace FDB.Apollo.IPT.Service.Controllers
             return NoContent();
         }
 
+        // PUT: api/Colors/Submit/5
+        [HttpPut("Submit/{id}", Name = nameof(SubmitColor))]
+        public async Task<IActionResult> SubmitColor(long id)
+        {
+            var dtNow = DateTime.UtcNow;
+            long changeUserID = 99999;
+            char changeType = ChangeType.Publish.GetChar();
+
+            using (var transaction = await _context.Database.BeginTransactionAsync())
+            {
+                var audRec = await _context.IptColorAs.FindAsync(id);
+
+                if (audRec == null)
+                {
+                    return NotFound();
+                }
+
+                switch ((FDBWipStatus)audRec.WipStatusId)
+                {
+                    case FDBWipStatus.Published:
+                    case FDBWipStatus.Protected:
+                        return base.StatusCode((int)HttpStatusCode.NotModified);
+                    default:
+                        break;
+                }
+
+                audRec.WipStatusId = (long)FDBWipStatus.Submitted;
+                audRec.AudLastModifyDate = dtNow;
+                audRec.AudLastModifyUserId = changeUserID;
+
+                _context.Entry(audRec).State = EntityState.Modified;
+
+                await _context.SaveChangesAsync();
+
+                await transaction.CommitAsync();
+            }
+
+            return NoContent();
+        }
+
         // PUT: api/Colors/Publish/5
         [HttpPut("Publish/{id}", Name = nameof(PublishColor))]
         public async Task<IActionResult> PublishColor(long id)
