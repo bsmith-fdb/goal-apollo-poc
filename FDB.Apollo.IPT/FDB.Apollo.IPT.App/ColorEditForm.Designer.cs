@@ -38,8 +38,7 @@
             this.mnuFilePublish = new System.Windows.Forms.ToolStripMenuItem();
             this.mnuMainView = new System.Windows.Forms.ToolStripMenuItem();
             this.mnuMainViewAudit = new System.Windows.Forms.ToolStripMenuItem();
-            this.mnuMainTools = new System.Windows.Forms.ToolStripMenuItem();
-            this.mnuMainToolsRefresh = new System.Windows.Forms.ToolStripMenuItem();
+            this.mnuMainViewRefresh = new System.Windows.Forms.ToolStripMenuItem();
             this.lblID = new System.Windows.Forms.Label();
             this.lblColorDesc = new System.Windows.Forms.Label();
             this.lblAbbrv = new System.Windows.Forms.Label();
@@ -56,8 +55,7 @@
             // 
             this.mnuMain.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.mnuMainFil,
-            this.mnuMainView,
-            this.mnuMainTools});
+            this.mnuMainView});
             this.mnuMain.Location = new System.Drawing.Point(0, 0);
             this.mnuMain.Name = "mnuMain";
             this.mnuMain.Size = new System.Drawing.Size(407, 24);
@@ -81,7 +79,7 @@
             // 
             this.mnuFileNew.Name = "mnuFileNew";
             this.mnuFileNew.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.N)));
-            this.mnuFileNew.Size = new System.Drawing.Size(180, 22);
+            this.mnuFileNew.Size = new System.Drawing.Size(157, 22);
             this.mnuFileNew.Text = "New";
             this.mnuFileNew.Click += new System.EventHandler(this.mnuFileNew_Click);
             // 
@@ -89,7 +87,7 @@
             // 
             this.mnuFileOpen.Name = "mnuFileOpen";
             this.mnuFileOpen.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.O)));
-            this.mnuFileOpen.Size = new System.Drawing.Size(180, 22);
+            this.mnuFileOpen.Size = new System.Drawing.Size(157, 22);
             this.mnuFileOpen.Text = "Open";
             this.mnuFileOpen.Click += new System.EventHandler(this.mnuFileOpen_Click);
             // 
@@ -97,14 +95,14 @@
             // 
             this.mnuFileEdit.Name = "mnuFileEdit";
             this.mnuFileEdit.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.E)));
-            this.mnuFileEdit.Size = new System.Drawing.Size(180, 22);
+            this.mnuFileEdit.Size = new System.Drawing.Size(157, 22);
             this.mnuFileEdit.Text = "Edit";
             // 
             // mnuFileSave
             // 
             this.mnuFileSave.Name = "mnuFileSave";
             this.mnuFileSave.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.S)));
-            this.mnuFileSave.Size = new System.Drawing.Size(180, 22);
+            this.mnuFileSave.Size = new System.Drawing.Size(157, 22);
             this.mnuFileSave.Text = "Save";
             this.mnuFileSave.Click += new System.EventHandler(this.mnuFileSave_Click);
             // 
@@ -112,19 +110,20 @@
             // 
             this.mnuFileSubmit.Name = "mnuFileSubmit";
             this.mnuFileSubmit.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.M)));
-            this.mnuFileSubmit.Size = new System.Drawing.Size(180, 22);
+            this.mnuFileSubmit.Size = new System.Drawing.Size(157, 22);
             this.mnuFileSubmit.Text = "Submit";
             // 
             // mnuFilePublish
             // 
             this.mnuFilePublish.Name = "mnuFilePublish";
             this.mnuFilePublish.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.Y)));
-            this.mnuFilePublish.Size = new System.Drawing.Size(180, 22);
+            this.mnuFilePublish.Size = new System.Drawing.Size(157, 22);
             this.mnuFilePublish.Text = "Publish";
             // 
             // mnuMainView
             // 
             this.mnuMainView.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.mnuMainViewRefresh,
             this.mnuMainViewAudit});
             this.mnuMainView.Name = "mnuMainView";
             this.mnuMainView.Size = new System.Drawing.Size(44, 20);
@@ -134,25 +133,17 @@
             // 
             this.mnuMainViewAudit.Name = "mnuMainViewAudit";
             this.mnuMainViewAudit.ShortcutKeys = System.Windows.Forms.Keys.F6;
-            this.mnuMainViewAudit.Size = new System.Drawing.Size(122, 22);
+            this.mnuMainViewAudit.Size = new System.Drawing.Size(180, 22);
             this.mnuMainViewAudit.Text = "Audit";
             this.mnuMainViewAudit.Click += new System.EventHandler(this.mnuMainViewAudit_Click);
             // 
-            // mnuMainTools
+            // mnuMainViewRefresh
             // 
-            this.mnuMainTools.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.mnuMainToolsRefresh});
-            this.mnuMainTools.Name = "mnuMainTools";
-            this.mnuMainTools.Size = new System.Drawing.Size(46, 20);
-            this.mnuMainTools.Text = "Tools";
-            // 
-            // mnuMainToolsRefresh
-            // 
-            this.mnuMainToolsRefresh.Name = "mnuMainToolsRefresh";
-            this.mnuMainToolsRefresh.ShortcutKeys = System.Windows.Forms.Keys.F5;
-            this.mnuMainToolsRefresh.Size = new System.Drawing.Size(132, 22);
-            this.mnuMainToolsRefresh.Text = "Refresh";
-            this.mnuMainToolsRefresh.Click += new System.EventHandler(this.mnuMainToolsRefresh_Click);
+            this.mnuMainViewRefresh.Name = "mnuMainViewRefresh";
+            this.mnuMainViewRefresh.ShortcutKeys = System.Windows.Forms.Keys.F5;
+            this.mnuMainViewRefresh.Size = new System.Drawing.Size(180, 22);
+            this.mnuMainViewRefresh.Text = "Refresh";
+            this.mnuMainViewRefresh.Click += new System.EventHandler(this.mnuMainViewRefresh_Click);
             // 
             // lblID
             // 
@@ -273,10 +264,9 @@
         private TextBox txtID;
         private TextBox txtDesc;
         private TextBox txtAbbrv;
-        private ToolStripMenuItem mnuMainTools;
-        private ToolStripMenuItem mnuMainToolsRefresh;
         private ToolStripMenuItem mnuMainView;
         private ToolStripMenuItem mnuMainViewAudit;
         private TextBox txtBasicColorID;
+        private ToolStripMenuItem mnuMainViewRefresh;
     }
 }

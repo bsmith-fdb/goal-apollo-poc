@@ -21,6 +21,10 @@ namespace FDB.Apollo.IPT.App
                 {
                     ctrl.Enabled = _uiEnabled;
                 }
+
+                Cursor = _uiEnabled ? Cursors.Default : Cursors.WaitCursor;
+
+                this.Refresh();
             }
         }
 
@@ -31,17 +35,11 @@ namespace FDB.Apollo.IPT.App
             InitializeComponent();
         }
 
-        private async void btnLoad_Click(object sender, EventArgs e)
-        {
-            await LoadAllColors();
-        }
-
         private async Task LoadAllColors()
         {
             try
             {
                 UIEnabled = false;
-                Cursor = Cursors.WaitCursor;
 
                 var sw = Stopwatch.StartNew();
                 var locale = rdoWIP.Checked ? DbContextLocale.Working : DbContextLocale.Published;
@@ -56,7 +54,6 @@ namespace FDB.Apollo.IPT.App
             finally
             {
                 UIEnabled = true;
-                Cursor = Cursors.Default;
             }
         }
 
@@ -87,35 +84,6 @@ namespace FDB.Apollo.IPT.App
             lblTotalRowCount.Text = $"Row Count: {grdData.Rows.Count}";
         }
 
-        private void grdColor_RowsAdded(object sender, DataGridViewRowsAddedEventArgs e)
-        {
-            UpdateRowCount();
-        }
-
-        private void grdColor_RowsRemoved(object sender, DataGridViewRowsRemovedEventArgs e)
-        {
-            UpdateRowCount();
-        }
-
-        private void ColorSearchForm_Shown(object sender, EventArgs e)
-        {
-            this.DialogResult = DialogResult.None;
-            this.ReturnValue = null;
-        }
-
-        private void grdData_KeyDown(object sender, KeyEventArgs e)
-        {
-            if (e.KeyCode == Keys.Enter)
-            {
-                e.Handled = CloseWithSelectedRow();
-            }
-        }
-
-        private void grdColor_DoubleClick(object sender, EventArgs e)
-        {
-            CloseWithSelectedRow();
-        }
-
         private bool CloseWithSelectedRow()
         {
             if (grdData.SelectedRows.Count > 0)
@@ -130,9 +98,47 @@ namespace FDB.Apollo.IPT.App
             return false;
         }
 
+        #region Event handlers
+
+        private async void btnLoad_Click(object sender, EventArgs e)
+        {
+            await LoadAllColors();
+        }
+
         private async void rdoWIP_CheckedChanged(object sender, EventArgs e)
         {
             await LoadAllColors();
         }
+
+        private void grdColor_DoubleClick(object sender, EventArgs e)
+        {
+            CloseWithSelectedRow();
+        }
+
+        private void grdColor_RowsAdded(object sender, DataGridViewRowsAddedEventArgs e)
+        {
+            UpdateRowCount();
+        }
+
+        private void grdColor_RowsRemoved(object sender, DataGridViewRowsRemovedEventArgs e)
+        {
+            UpdateRowCount();
+        }
+
+        private void grdData_KeyDown(object sender, KeyEventArgs e)
+        {
+            if (e.KeyCode == Keys.Enter)
+            {
+                e.Handled = CloseWithSelectedRow();
+            }
+        }
+
+        private void ColorSearchForm_Shown(object sender, EventArgs e)
+        {
+            this.DialogResult = DialogResult.None;
+            this.ReturnValue = null;
+        }
+
+        #endregion Event handlers
     }
 }

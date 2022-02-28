@@ -1,6 +1,5 @@
-using System.Collections.Specialized;
-using System.Diagnostics;
 using FDB.Apollo.IPT.Client;
+using System.Diagnostics;
 using Color = FDB.Apollo.IPT.Client.Color;
 
 namespace FDB.Apollo.IPT.App
@@ -23,6 +22,10 @@ namespace FDB.Apollo.IPT.App
                 {
                     ctrl.Enabled = _uiEnabled;
                 }
+
+                Cursor = _uiEnabled ? Cursors.Default : Cursors.WaitCursor;
+
+                this.Refresh();
             }
         }
 
@@ -42,7 +45,6 @@ namespace FDB.Apollo.IPT.App
 
             try
             {
-                Cursor = Cursors.WaitCursor;
                 UIEnabled = false;
                 var sw = Stopwatch.StartNew();
                 var locale = sourceWIP ? DbContextLocale.Working : DbContextLocale.Published;
@@ -56,7 +58,6 @@ namespace FDB.Apollo.IPT.App
             }
             finally
             {
-                Cursor = Cursors.Default;
                 UIEnabled = true;
             }
         }
@@ -101,46 +102,9 @@ namespace FDB.Apollo.IPT.App
             return color;
         }
 
-        private async void mnuFileOpen_Click(object sender, EventArgs e)
-        {
-            var dr = _colorSearchForm.ShowDialog();
-            if (dr == DialogResult.OK && _colorSearchForm.ReturnValue is Color color)
-            {
-                await LoadColor(true, color.Id);
-            }
-        }
-
-        private async void mnuMainToolsRefresh_Click(object sender, EventArgs e)
-        {
-            if (MyLoadedItem != null)
-            {
-                await LoadColor(MyLoadedItem.Audit.SourceWIP, MyLoadedItem.Id);
-            }
-        }
-
-        private void mnuMainViewAudit_Click(object sender, EventArgs e)
-        {
-            if (MyLoadedItem != null)
-            {
-                var properties = MyLoadedItem.Audit.GetType().GetProperties()
-                    .ToDictionary(k => k.Name, v => v.GetValue(MyLoadedItem.Audit)?.ToString() ?? string.Empty);
-
-                using (var auditForm = new AuditForm())
-                {
-                    auditForm.Properties = properties;
-                    auditForm.ShowDialog();
-                }
-            }
-        }
-
         private void ColorEditForm_Load(object sender, EventArgs e)
         {
             
-        }
-
-        private async void mnuFileSave_Click(object sender, EventArgs e)
-        {
-            await SaveItem();
         }
 
         private async Task SaveItem()
@@ -149,20 +113,32 @@ namespace FDB.Apollo.IPT.App
             {
                 var color = UpdateObject();
 
-                if (color.Id == 0)
+                UIEnabled = false;
+
+                var sw = Stopwatch.StartNew();
+
+                long id = color.Id;
+
+                if (id == 0)
                 {
-                    long id = await _iptClient.CreateColorAsync(color);
-                    await LoadColor(true, id, false);
+                    id = await _iptClient.CreateColorAsync(color);
                 }
                 else
                 {
-                    await _iptClient.UpdateColorAsync(color.Id, color);
-                    await LoadColor(true, color.Id, false);
+                    await _iptClient.UpdateColorAsync(id, color);
                 }
+
+                Debug.Print($"SaveItem completed in {sw.ElapsedMilliseconds} ms");
+
+                await LoadColor(true, id, false);
             }
             catch (Exception ex)
             {
                 MessageBox.Show($"An error occurred while attempting to save the item:{Environment.NewLine}{ex.Message}", "Save Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+            finally
+            {
+                UIEnabled = true;
             }
         }
 
@@ -228,9 +204,50 @@ namespace FDB.Apollo.IPT.App
             }
         }
 
+        #region Main menu event handlers
+
         private void mnuFileNew_Click(object sender, EventArgs e)
         {
             NewItem();
         }
+
+        private async void mnuFileOpen_Click(object sender, EventArgs e)
+        {
+            var dr = _colorSearchForm.ShowDialog();
+            if (dr == DialogResult.OK && _colorSearchForm.ReturnValue is Color color)
+            {
+                await LoadColor(color.Audit.SourceWIP, color.Id);
+            }
+        }
+
+        private async void mnuFileSave_Click(object sender, EventArgs e)
+        {
+            await SaveItem();
+        }
+
+        private async void mnuMainViewRefresh_Click(object sender, EventArgs e)
+        {
+            if (MyLoadedItem != null)
+            {
+                await LoadColor(MyLoadedItem.Audit.SourceWIP, MyLoadedItem.Id);
+            }
+        }
+
+        private void mnuMainViewAudit_Click(object sender, EventArgs e)
+        {
+            if (MyLoadedItem != null)
+            {
+                var properties = MyLoadedItem.Audit.GetType().GetProperties()
+                    .ToDictionary(k => k.Name, v => v.GetValue(MyLoadedItem.Audit)?.ToString() ?? string.Empty);
+
+                using (var auditForm = new AuditForm())
+                {
+                    auditForm.Properties = properties;
+                    auditForm.ShowDialog();
+                }
+            }
+        }
+
+        #endregion Main menu event handlers
     }
 }
