@@ -6,9 +6,12 @@
 - [x] Load sample data from Apollo into Azure Postgres database
 - [x] Use EF Core scaffolding to generate EF Core entities of database objects
 - [x] Use Automapper to map between EF entities and DTO objects
+- [x] Use swagger to generate client code for WinForms desktop app
 - [x] Implement save/submit/publish/revert functionality
 - [x] Use Azure scale-out to spin up additional middle tier instances when demand spikes and scale-in when demand decreases
 - [x] Set up Azure Application Insights to monitor middle tier health and performance
+- [x] Use Azure Web App slots to swap "qm" and "prod" instances
+- [x] Set up a CI/CD pipeline using GitHub Actions to automatically deploy middle tier to Azure "qm" slot when new code is committed
 
 # Resources
 * [Tutorial: Create a web API with ASP.NET Core](https://docs.microsoft.com/en-us/aspnet/core/tutorials/first-web-api?view=aspnetcore-6.0&tabs=visual-studio)
