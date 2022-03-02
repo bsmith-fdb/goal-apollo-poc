@@ -1,3 +1,15 @@
+# Goals
+* Create a proof-of-concept Apollo application in Azure
+  * Client: WinForms desktop app
+  * Middle Tier: ASP.NET Core Web API and Entity Framework Core
+  * Database: Postgres
+- [x] Load sample data from Apollo into Azure Postgres database
+- [x] Use EF Core scaffolding to generate EF Core entities of database objects
+- [x] Use Automapper to map between EF entities and DTO objects
+- [x] Implement save/submit/publish/revert functionality
+- [x] Use Azure scale-out to spin up additional middle tier instances when demand spikes and scale-in when demand decreases
+- [x] Set up Azure Application Insights to monitor middle tier health and performance
+
 # Resources
 * [Tutorial: Create a web API with ASP.NET Core](https://docs.microsoft.com/en-us/aspnet/core/tutorials/first-web-api?view=aspnetcore-6.0&tabs=visual-studio)
 * [Creating Discoverable HTTP APIs with ASP.NET Core 5 Web API](https://devblogs.microsoft.com/dotnet/creating-discoverable-http-apis-with-asp-net-core-5-web-api/)
@@ -13,10 +25,3 @@
 # Notes
 * Generate EF Core models (execute in project folder)<br />
 `dotnet ef dbcontext scaffold Name=ConnectionStrings:postgres Npgsql.EntityFrameworkCore.PostgreSQL --output-dir .\Models.EF\`
-
-# Migration Challenges
-* Implementing change history logic (updating _C, _A, _H tables)
-  * Should we keep the logic in stored procedures?
-  * If the logic lives in C# code (assuming EntityFramework is used)
-    * Will this hurt performance? (lots of DB calls)
-    * How can we script the loading of data (like we do with DML DCRs)?
