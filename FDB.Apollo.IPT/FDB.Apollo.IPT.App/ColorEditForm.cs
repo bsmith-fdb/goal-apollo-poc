@@ -71,6 +71,7 @@ namespace FDB.Apollo.IPT.App
                 stsMainSource.Text = $"Source: {locale}";
                 mnuMainViewWIP.Checked = sourceWIP;
                 mnuMainViewPublished.Checked = !sourceWIP;
+                mnuMainViewPublished.Enabled = MyLoadedItem.Audit.PublishedDate != DateTime.MinValue;
             }
         }
 
